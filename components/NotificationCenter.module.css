@@ -1,0 +1,242 @@
+.container {
+  width: 400px;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--popup);
+  color: var(--popup-foreground);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.headerTitle h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.notificationList {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: var(--spacing-2) 0;
+}
+
+.notificationItem {
+  display: flex;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  transition: background-color var(--animation-duration-fast) ease;
+  position: relative;
+  min-height: 48px;
+  align-items: flex-start;
+}
+
+.notificationItem:not(.read):hover {
+  background-color: var(--muted);
+}
+
+.read {
+  opacity: 0.7;
+}
+
+.unreadIndicator {
+  position: absolute;
+  left: var(--spacing-2);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--primary);
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  min-width: 0;
+}
+
+.title {
+  font-weight: 500;
+  margin: 0;
+  color: var(--foreground);
+  word-wrap: break-word;
+}
+
+.message {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.time {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  margin-top: var(--spacing-1);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12) var(--spacing-4);
+  text-align: center;
+  color: var(--muted-foreground);
+}
+
+.emptyIcon {
+  margin-bottom: var(--spacing-4);
+  opacity: 0.5;
+}
+
+/* Tablet and mobile styles */
+@media (max-width: 768px) {
+  .container {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-overlay);
+  }
+
+  .header {
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .headerTitle h2 {
+    font-size: 1.25rem;
+  }
+
+  .notificationList {
+    padding: 0;
+  }
+
+  .notificationItem {
+    padding: var(--spacing-4);
+    min-height: 64px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .iconWrapper {
+    width: 40px;
+    height: 40px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .message {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .time {
+    font-size: 0.8125rem;
+  }
+
+  .emptyState {
+    padding: var(--spacing-16) var(--spacing-4);
+  }
+
+  .emptyIcon {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .header {
+    padding: var(--spacing-3);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+
+  .headerTitle {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .headerTitle h2 {
+    font-size: 1.125rem;
+  }
+
+  .notificationItem {
+    padding: var(--spacing-3);
+    gap: var(--spacing-2);
+    min-height: 56px;
+  }
+
+  .iconWrapper {
+    width: 32px;
+    height: 32px;
+  }
+
+  .content {
+    gap: var(--spacing-1);
+  }
+
+  .title {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+
+  .message {
+    font-size: 0.875rem;
+  }
+
+  .time {
+    font-size: 0.75rem;
+  }
+
+  .emptyState {
+    padding: var(--spacing-12) var(--spacing-3);
+  }
+
+  .emptyIcon {
+    width: 48px;
+    height: 48px;
+  }
+}

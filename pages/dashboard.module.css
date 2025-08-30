@@ -1,0 +1,159 @@
+.pageContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-8);
+  font-family: var(--font-family-base);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.roleIcon {
+  width: 32px;
+  height: 32px;
+  color: var(--primary);
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.profileCard {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-6);
+  box-shadow: var(--shadow-md);
+}
+
+.profileAvatar {
+  width: 4rem;
+  height: 4rem;
+  font-size: 1.5rem;
+}
+
+.profileInfo {
+  flex-grow: 1;
+}
+
+.profileName {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.profileEmail {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+.roleBadge {
+  text-transform: capitalize;
+  font-size: 0.875rem;
+  padding: var(--spacing-1) var(--spacing-3);
+}
+
+.featuresSection {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-md);
+}
+
+.featuresTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-6);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.featureCard {
+  background-color: var(--surface);
+  padding: var(--spacing-4);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  transition:
+    transform var(--animation-duration-normal) ease,
+    box-shadow var(--animation-duration-normal) ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.featureIcon {
+  color: var(--primary);
+}
+
+.featureName {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.featureDesc {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .pageContainer {
+    padding: var(--spacing-4);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .profileCard {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .roleBadge {
+    align-self: flex-start;
+  }
+}

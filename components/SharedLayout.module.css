@@ -1,0 +1,225 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav-sticky);
+  width: 100%;
+  background-color: color-mix(in srgb, var(--background) 80%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-8);
+  height: 80px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-family: var(--font-family-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: var(--spacing-6);
+}
+
+.navLink {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  position: relative;
+  padding: var(--spacing-2) 0;
+  transition: color var(--animation-duration-fast) ease;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform var(--animation-duration-normal) ease-out;
+}
+
+.navLink:hover {
+  color: var(--foreground);
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.navLink.active {
+  color: var(--primary);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.authControls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.mobileMenuButton {
+  display: none;
+}
+
+.mobileMenu {
+  display: none;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.footer {
+  text-align: center;
+  padding: var(--spacing-8);
+  color: var(--muted-foreground);
+  border-top: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+
+/* Tablet and mobile styles */
+@media (max-width: 768px) {
+  .headerContent {
+    padding: 0 var(--spacing-4);
+    height: 64px;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .mobileMenuButton {
+    display: flex;
+  }
+
+  .authControls {
+    gap: var(--spacing-2);
+  }
+
+  .authControls > *:not(:last-child) {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: block;
+    background-color: var(--background);
+    border-top: 1px solid var(--border);
+    padding: var(--spacing-4);
+    animation: slideDown var(--animation-duration-normal) ease-out;
+  }
+
+  .mobileNav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+  }
+
+  .mobileNavLink {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--border);
+    transition: color var(--animation-duration-fast) ease;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobileNavLink:hover,
+  .mobileNavLink.active {
+    color: var(--primary);
+  }
+
+  .mobileAuthControls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--border);
+  }
+
+  .footer {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .headerContent {
+    padding: 0 var(--spacing-3);
+    height: 56px;
+  }
+
+  .logo {
+    font-size: 1.125rem;
+  }
+
+  .mobileMenu {
+    padding: var(--spacing-3);
+  }
+
+  .mobileNavLink {
+    font-size: 1rem;
+    padding: var(--spacing-2) 0;
+  }
+
+  .mobileAuthControls {
+    gap: var(--spacing-2);
+  }
+
+  .footer {
+    padding: var(--spacing-4) var(--spacing-3);
+    font-size: 0.8125rem;
+  }
+}

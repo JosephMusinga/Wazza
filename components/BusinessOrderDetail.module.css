@@ -1,0 +1,384 @@
+.container {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-6);
+  font-family: var(--font-family-base);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.headerMain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex-shrink: 0;
+}
+
+.giftBadge {
+  font-size: 0.75rem;
+  padding: var(--spacing-1) var(--spacing-2);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.statusBadge {
+  font-size: 0.875rem;
+  padding: var(--spacing-1) var(--spacing-3);
+}
+
+.statusSelect {
+  width: 180px;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--spacing-8);
+  margin-top: var(--spacing-6);
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.orderInfoSection {
+  padding: var(--spacing-4);
+  background-color: var(--muted);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--primary);
+}
+
+.redemptionSection {
+  padding: var(--spacing-4);
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  border: 2px solid var(--secondary);
+}
+
+.summarySection {
+  /* Summary section specific styles */
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-4);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.subsectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-3);
+}
+
+.orderNumber {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-2);
+}
+
+.orderDate {
+  font-size: 0.9375rem;
+  color: var(--muted-foreground);
+  margin: 0 0 var(--spacing-2);
+}
+
+.giftIndicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: 0.9375rem;
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+/* Redemption section styles */
+.redemptionForm {
+  margin-bottom: var(--spacing-4);
+}
+
+.redemptionDescription {
+  font-size: 0.9375rem;
+  color: var(--muted-foreground);
+  margin-bottom: var(--spacing-4);
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.errorMessage {
+  font-size: 0.875rem;
+  color: var(--error);
+  margin-top: var(--spacing-1);
+}
+
+.verifyButton {
+  width: 100%;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  margin-bottom: var(--spacing-4);
+}
+
+.alert svg {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.alertError {
+  background-color: color-mix(in srgb, var(--error) 10%, transparent);
+  color: var(--error);
+  border: 1px solid color-mix(in srgb, var(--error) 20%, transparent);
+}
+
+.alertSuccess {
+  background-color: color-mix(in srgb, var(--success) 10%, transparent);
+  color: var(--success);
+  border: 1px solid color-mix(in srgb, var(--success) 20%, transparent);
+}
+
+.tryAgainButton {
+  margin-left: auto;
+  padding: 0;
+  height: auto;
+}
+
+.redemptionDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.recipientInfo {
+  background-color: var(--muted);
+  padding: var(--spacing-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  color: var(--muted-foreground);
+  font-size: 1rem;
+}
+
+.detailItem span {
+  color: var(--foreground);
+}
+
+.detailItem:not(:last-child) {
+  margin-bottom: var(--spacing-3);
+}
+
+.redemptionActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+}
+
+.redeemError {
+  margin-top: var(--spacing-2);
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+
+.itemDetails {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-3);
+}
+
+.itemQuantity {
+  font-weight: 500;
+  color: var(--muted-foreground);
+  font-size: 0.9375rem;
+}
+
+.itemName {
+  font-weight: 500;
+  color: var(--foreground);
+  font-size: 1rem;
+}
+
+.itemPricing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.itemUnitPrice {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.itemTotalPrice {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.summarySeparator {
+  margin: var(--spacing-4) 0;
+}
+
+.totalContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--surface);
+  border-radius: var(--radius);
+}
+
+.totalLabel {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.totalAmount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.dialogTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.dialogIcon {
+  color: var(--warning);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerActions {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .statusSelect {
+    flex-grow: 1;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-6);
+  }
+
+  .redemptionActions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-2);
+  }
+}

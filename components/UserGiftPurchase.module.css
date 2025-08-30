@@ -1,0 +1,187 @@
+.container {
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-6);
+  max-width: 900px;
+  margin: var(--spacing-8) auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--spacing-6);
+}
+
+.header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.content {
+  min-height: 400px;
+}
+
+.stepTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-2);
+}
+
+.stepSubtitle {
+  color: var(--muted-foreground);
+  margin-top: 0;
+  margin-bottom: var(--spacing-6);
+}
+
+.errorText {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-2);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* Step 1: Business Select */
+.businessSelectItem {
+  display: flex;
+  flex-direction: column;
+}
+.businessAddress {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+
+
+/* Step 3: Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  max-width: 500px;
+}
+
+/* Step 4: Summary */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.summarySection {
+  background-color: var(--muted);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+}
+
+.summarySection h4 {
+  margin-top: 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-2);
+  font-size: 0.9rem;
+}
+
+.summaryTotal {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border);
+}
+
+/* Step 5: Success */
+.successState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-12) 0;
+}
+.successIcon { color: var(--success); }
+.successTitle { margin: var(--spacing-4) 0 var(--spacing-2); }
+.successMessage { color: var(--muted-foreground); margin-bottom: var(--spacing-4); }
+
+.orderDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
+}
+
+.orderNumber {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  background-color: var(--muted);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius);
+}
+
+.redemptionCodeWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: var(--muted);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius);
+}
+
+.redemptionCode {
+  font-family: var(--font-family-monospace);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.successActions {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: center;
+}
+
+.cartItemsNotice {
+  background-color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.cartItemsMessage {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--foreground);
+  font-weight: 500;
+  margin: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--border);
+  margin-top: var(--spacing-6);
+}

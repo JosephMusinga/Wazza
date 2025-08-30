@@ -1,0 +1,189 @@
+.checkoutContainer {
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-8);
+  box-shadow: var(--shadow-md);
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: var(--font-family-base);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
+}
+
+.purchaseTypeIcon {
+  color: var(--primary);
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-3) 0;
+}
+
+.recipientInfo {
+  background-color: var(--muted);
+  border-radius: var(--radius);
+  padding: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.recipientDetails {
+  background-color: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.recipientRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.9375rem;
+  gap: var(--spacing-2);
+}
+
+.recipientRow:not(:last-child) {
+  margin-bottom: var(--spacing-2);
+}
+
+.recipientRow span:first-child {
+  color: var(--muted-foreground);
+  font-weight: 500;
+  flex-shrink: 0;
+  min-width: 60px;
+}
+
+.recipientRow span:last-child {
+  color: var(--foreground);
+  text-align: right;
+  word-break: break-word;
+}
+
+.smsInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--info);
+  font-size: 0.875rem;
+  background-color: color-mix(in srgb, var(--info) 10%, transparent);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--info) 20%, transparent);
+}
+
+.summary {
+  background-color: var(--muted);
+  border-radius: var(--radius);
+  padding: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.summaryTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-top: 0;
+  margin-bottom: var(--spacing-3);
+  padding-bottom: var(--spacing-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9375rem;
+  color: var(--muted-foreground);
+}
+
+.summaryRow:not(:last-child) {
+  margin-bottom: var(--spacing-2);
+}
+
+.summaryRow span:first-child {
+  color: var(--foreground);
+}
+
+.totalPrice {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--primary);
+}
+
+.pickupInfo {
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-3);
+  background-color: var(--info);
+  color: var(--info-foreground);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.pickupInfo p {
+  margin: 0;
+}
+
+.submitButton {
+  margin-top: var(--spacing-6);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: color-mix(in srgb, var(--error) 10%, transparent);
+  color: var(--error);
+  padding: var(--spacing-3);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-4);
+  border: 1px solid color-mix(in srgb, var(--error) 20%, transparent);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-16) var(--spacing-8);
+  color: var(--muted-foreground);
+}
+
+.emptyIcon {
+  margin-bottom: var(--spacing-4);
+  color: var(--muted-foreground);
+  opacity: 0.5;
+}
+
+.emptyState h3 {
+  font-size: 1.25rem;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.emptyState p {
+  margin: 0;
+  max-width: 300px;
+}

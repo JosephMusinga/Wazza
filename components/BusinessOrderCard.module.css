@@ -1,0 +1,213 @@
+.card {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all var(--animation-duration-normal) ease;
+  border: 2px solid transparent;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  border-color: var(--primary);
+  background-color: color-mix(in srgb, var(--card) 98%, var(--primary) 2%);
+}
+
+.selected {
+  border-color: var(--primary);
+  background-color: color-mix(in srgb, var(--card) 95%, var(--primary) 5%);
+  box-shadow: var(--shadow-lg);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+.selected .cardHeader {
+  background-color: color-mix(in srgb, var(--surface) 92%, var(--primary) 8%);
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.cardBody {
+  padding: var(--spacing-4);
+  flex-grow: 1;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-3);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.collectorInfo {
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.collectorDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.collectorItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: 0.9375rem;
+}
+
+.collectorName {
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.collectorPhone {
+  color: var(--muted-foreground);
+  font-family: var(--font-family-monospace);
+}
+
+.itemsInfo {
+  /* Styles for items info section */
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--spacing-3);
+  align-items: center;
+  font-size: 0.9375rem;
+}
+
+.itemQuantity {
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.itemName {
+  color: var(--foreground);
+}
+
+.itemPrice {
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-align: right;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.selected .cardFooter {
+  background-color: color-mix(in srgb, var(--surface) 92%, var(--primary) 8%);
+}
+
+.totalAmount {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.redemptionSection {
+  display: flex;
+  align-items: center;
+}
+
+.redemptionForm {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.redemptionInput {
+  min-width: 180px;
+  height: 2.25rem;
+}
+
+.redemptionButtons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+@media (max-width: 768px) {
+  .cardFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .redemptionForm {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .redemptionInput {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .redemptionButtons {
+    justify-content: flex-end;
+  }
+
+  .headerInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+}

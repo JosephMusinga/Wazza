@@ -1,0 +1,260 @@
+.profileCard {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: box-shadow var(--animation-duration-normal) ease;
+}
+
+.profileCard:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--spacing-6);
+  border-bottom: 1px solid var(--border);
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.25rem;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.cardSubtitle {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin: var(--spacing-1) 0 0;
+}
+
+.cardContent {
+  padding: var(--spacing-6);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-4);
+}
+
+.infoGrid {
+  display: grid;
+  gap: var(--spacing-6);
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+
+.infoIcon {
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.infoLabel {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  margin-bottom: var(--spacing-1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.infoValue {
+  font-size: 1rem;
+  color: var(--foreground);
+  margin: 0;
+  word-break: break-all;
+}
+
+.role {
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.avatarSkeleton {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-full);
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-6);
+  text-align: center;
+}
+
+.errorMessage {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Tablet and mobile styles */
+@media (max-width: 768px) {
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+  }
+
+  .headerInfo {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .avatar {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.125rem;
+  }
+
+  .cardTitle {
+    font-size: 1.125rem;
+  }
+
+  .cardSubtitle {
+    font-size: 0.8125rem;
+  }
+
+  .cardContent {
+    padding: var(--spacing-4);
+  }
+
+  .form {
+    gap: var(--spacing-3);
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-3);
+  }
+
+  .formActions button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .infoGrid {
+    gap: var(--spacing-4);
+  }
+
+  .infoItem {
+    padding: var(--spacing-3);
+    background-color: var(--muted);
+    border-radius: var(--radius);
+    min-height: 48px;
+    align-items: center;
+  }
+
+  .infoIcon {
+    margin-top: 0;
+  }
+
+  .infoValue {
+    font-size: 0.9375rem;
+    word-break: break-word;
+  }
+
+  .errorState {
+    padding: var(--spacing-4);
+  }
+
+  .avatarSkeleton {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .cardHeader {
+    padding: var(--spacing-3);
+  }
+
+  .headerInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+  }
+
+  .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
+  }
+
+  .cardSubtitle {
+    font-size: 0.75rem;
+  }
+
+  .cardContent {
+    padding: var(--spacing-3);
+  }
+
+  .infoGrid {
+    gap: var(--spacing-3);
+  }
+
+  .infoItem {
+    padding: var(--spacing-2);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+    min-height: auto;
+  }
+
+  .infoIcon {
+    align-self: flex-start;
+  }
+
+  .infoLabel {
+    font-size: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  .infoValue {
+    font-size: 0.875rem;
+  }
+
+  .avatarSkeleton {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

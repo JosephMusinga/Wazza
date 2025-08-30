@@ -1,0 +1,159 @@
+.dashboard {
+  padding: var(--spacing-8);
+  background-color: var(--background);
+  min-height: 100vh;
+  font-family: var(--font-family-base);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-8);
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  color: var(--foreground);
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: var(--font-family-heading);
+}
+
+.dateRangeSelector {
+  width: 200px;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-6);
+  margin-bottom: var(--spacing-8);
+}
+
+.metricCard {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metricCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.metricTitle {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.metricValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.metricIcon {
+  position: absolute;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  color: var(--muted-foreground);
+  opacity: 0.5;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+}
+
+.listCard {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.listCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  color: var(--foreground);
+}
+
+.listCardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.listCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.productItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.productItem:last-child {
+  border-bottom: none;
+}
+
+.productName {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.noDataText {
+  color: var(--muted-foreground);
+  text-align: center;
+  padding: var(--spacing-8) 0;
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-16);
+  color: var(--muted-foreground);
+}
+
+.errorIcon {
+  color: var(--error);
+  margin-bottom: var(--spacing-4);
+}
+
+.errorTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: var(--spacing-2);
+}
+
+.errorMessage {
+  max-width: 400px;
+}

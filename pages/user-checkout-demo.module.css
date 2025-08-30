@@ -1,0 +1,32 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-8) var(--spacing-4);
+  font-family: var(--font-family-base);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-12);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-4);
+  font-family: var(--font-family-heading);
+}
+
+.description {
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.mainContent {
+  display: flex;
+  justify-content: center;
+}

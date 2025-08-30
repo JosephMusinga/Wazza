@@ -1,0 +1,274 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-8);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.userName {
+  font-family: var(--font-family-heading);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.userMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-1);
+}
+
+.userEmail {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+}
+
+.separator {
+  margin: var(--spacing-6) 0;
+}
+
+.mainContent {
+  margin-top: var(--spacing-8);
+}
+
+.sectionTitle {
+  font-family: var(--font-family-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: var(--spacing-6);
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.featureCard {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid var(--error);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.clickableCard {
+  cursor: pointer;
+}
+
+.clickableCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.clickableCard:focus {
+  outline: none;
+  box-shadow: var(--shadow-lg), var(--shadow-focus);
+}
+
+.comingSoonCard {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.comingSoonCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  opacity: 0.8;
+}
+
+.comingSoonBadge {
+  position: absolute;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.featureIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--error);
+  margin-bottom: var(--spacing-4);
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-2);
+}
+
+.featureDescription {
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.analyticsSection {
+  margin-top: var(--spacing-12);
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: var(--spacing-4);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+  }
+
+  .userInfo {
+    width: 100%;
+    gap: var(--spacing-3);
+  }
+
+  .userName {
+    font-size: 1.5rem;
+  }
+
+  .userMeta {
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+  }
+
+  .separator {
+    margin: var(--spacing-4) 0;
+  }
+
+  .mainContent {
+    margin-top: var(--spacing-4);
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-4);
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+
+  .featureCard {
+    padding: var(--spacing-4);
+  }
+
+  .featureTitle {
+    font-size: 1.125rem;
+  }
+
+  .featureDescription {
+    font-size: 0.9rem;
+  }
+
+  .featureIcon {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: var(--spacing-3);
+  }
+
+  .comingSoonBadge {
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    font-size: 0.7rem;
+    padding: var(--spacing-1) var(--spacing-1);
+  }
+  
+  .analyticsSection {
+    margin-top: var(--spacing-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: var(--spacing-3);
+  }
+
+  .header {
+    gap: var(--spacing-3);
+  }
+
+  .userInfo {
+    gap: var(--spacing-2);
+  }
+
+  .userName {
+    font-size: 1.25rem;
+  }
+
+  .userEmail {
+    font-size: 0.8rem;
+  }
+
+  .featureGrid {
+    gap: var(--spacing-3);
+  }
+
+  .featureCard {
+    padding: var(--spacing-3);
+    border-left-width: 3px;
+  }
+
+  .featureTitle {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-1);
+  }
+
+  .featureDescription {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .featureIcon {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-bottom: var(--spacing-2);
+  }
+
+  .sectionTitle {
+    font-size: 1.125rem;
+  }
+
+  .analyticsSection {
+    margin-top: var(--spacing-4);
+  }
+}

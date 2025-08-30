@@ -1,0 +1,315 @@
+.dashboard {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-8);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  margin-bottom: var(--spacing-6);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.mobileHeader {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  margin-bottom: var(--spacing-6);
+}
+
+.mobileUserInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.mobileHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.brandName {
+  font-family: var(--font-family-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.userName {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  margin-top: var(--spacing-1);
+}
+
+.mobileUserName {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.zapIcon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.backButton {
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+
+.backButton:hover {
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.profileAvatar {
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.625rem;
+}
+
+.cartButton {
+  position: relative;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  height: 18px;
+  min-width: 18px;
+  padding: 0 5px;
+  font-size: 0.7rem;
+  line-height: 18px;
+  background-color: var(--error);
+  color: var(--error-foreground);
+  border: 2px solid var(--background);
+  pointer-events: none;
+}
+
+.cartDialog {
+  max-width: 90vw;
+  max-height: 90vh;
+  padding: 0;
+}
+
+.cartDialog .container {
+  margin: 0;
+  box-shadow: none;
+  padding: var(--spacing-6);
+}
+
+.userAddress {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+}
+
+.separator {
+  flex-shrink: 0;
+  margin: var(--spacing-2) 0;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.sectionTitle {
+  font-family: var(--font-family-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: var(--spacing-6);
+}
+
+.tabs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.tabsList {
+  flex-shrink: 0;
+  margin-bottom: var(--spacing-2);
+}
+
+.tabContent {
+  outline: none;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sectionHeader {
+  flex-shrink: 0;
+  margin-bottom: var(--spacing-6);
+}
+
+.sectionDescription {
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: var(--spacing-2) 0 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    height: 100vh;
+    padding: var(--spacing-3);
+    max-width: 100%;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .mobileHeader {
+    display: flex;
+  }
+
+  .separator {
+    margin: var(--spacing-1) 0;
+  }
+
+  .mainContent {
+    margin-top: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .tabs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .tabsList {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0 var(--spacing-1);
+    margin-bottom: var(--spacing-1);
+    flex-shrink: 0;
+  }
+
+  .tabsList::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabsList .tabsTrigger {
+    padding: var(--spacing-3) var(--spacing-4);
+    min-width: max-content;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .tabContent {
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .brandName {
+    font-size: 1.125rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-2);
+  }
+
+  .sectionDescription {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    height: 100vh;
+    padding: var(--spacing-2);
+  }
+
+  .mobileHeader {
+    padding: var(--spacing-3) 0;
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    margin: 0 calc(-1 * var(--spacing-2));
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+  }
+
+  .tabsList {
+    padding: 0;
+    margin: 0 calc(-1 * var(--spacing-2)) var(--spacing-3);
+    padding: var(--spacing-1) var(--spacing-2);
+    background-color: var(--surface);
+    border-radius: var(--radius);
+  }
+
+  .tabsList .tabsTrigger {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.825rem;
+  }
+
+  .sectionHeader {
+    margin-bottom: var(--spacing-4);
+  }
+
+  .brandName {
+    font-size: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.125rem;
+  }
+}

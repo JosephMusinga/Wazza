@@ -1,0 +1,48 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+}
+
+.skeletonCard {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.body {
+  padding: var(--spacing-4);
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: var(--spacing-6);
+}
+
+.leftCol, .rightCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,263 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-8);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.mobileHeader {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.mobileUserInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.mobileHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.brandName {
+  font-family: var(--font-family-heading);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.userName {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  margin-top: var(--spacing-1);
+}
+
+.mobileUserName {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.zapIcon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.profileAvatar {
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.625rem;
+}
+
+.userAddress {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+}
+
+.separator {
+  margin: var(--spacing-6) 0;
+}
+
+.mainContent {
+  margin-top: var(--spacing-8);
+}
+
+.tabsContainer {
+  width: 100%;
+}
+
+.tabsList {
+  margin-bottom: var(--spacing-6);
+}
+
+.tabContent {
+  min-height: 400px;
+  padding: 0;
+}
+
+.placeholderContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-16) var(--spacing-8);
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border);
+  color: var(--muted-foreground);
+}
+
+.placeholderIcon {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: var(--spacing-4);
+  color: var(--muted-foreground);
+}
+
+.placeholderTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: var(--spacing-3);
+}
+
+.placeholderDescription {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: var(--spacing-3);
+    max-width: 100%;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .mobileHeader {
+    display: flex;
+  }
+
+  .separator {
+    margin: var(--spacing-4) 0;
+  }
+
+  .mainContent {
+    margin-top: var(--spacing-4);
+  }
+
+  .tabsContainer {
+    width: 100%;
+  }
+
+  .tabsList {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0 var(--spacing-1);
+    margin-bottom: var(--spacing-4);
+  }
+
+  .tabsList::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabsList .tabsTrigger {
+    padding: var(--spacing-3) var(--spacing-4);
+    min-width: max-content;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .tabContent {
+    min-height: 300px;
+    padding: 0;
+  }
+
+  .placeholderContent {
+    padding: var(--spacing-8) var(--spacing-4);
+    margin: var(--spacing-2) 0;
+  }
+
+  .placeholderIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: var(--spacing-3);
+  }
+
+  .placeholderTitle {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-2);
+  }
+
+  .placeholderDescription {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: var(--spacing-2);
+  }
+
+  .mobileHeader {
+    padding: var(--spacing-3) 0;
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    margin: 0 calc(-1 * var(--spacing-2));
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+  }
+
+  .tabsList {
+    padding: 0;
+    margin: 0 calc(-1 * var(--spacing-2)) var(--spacing-3);
+    padding: var(--spacing-1) var(--spacing-2);
+    background-color: var(--surface);
+    border-radius: var(--radius);
+  }
+
+  .tabsList .tabsTrigger {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.825rem;
+  }
+
+  .placeholderContent {
+    padding: var(--spacing-6) var(--spacing-3);
+    margin: var(--spacing-1) 0;
+  }
+
+  .placeholderIcon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .placeholderTitle {
+    font-size: 1.125rem;
+  }
+}
