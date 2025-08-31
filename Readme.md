@@ -1,22 +1,3 @@
-# React Role Based Authentication System
-        
-Create a React authentication system that supports three user roles: User (shopper), Business Owner, and Admin. Implement registration and login forms where users select their role during signup. Use React Context or Redux for managing authentication state. The system should:
-
-Allow users to register with email, password, and select their role.
-
-Validate inputs and show appropriate error messages.
-
-Allow users to login with email and password.
-
-Store and manage authentication state globally.
-
-After login, redirect users to role-specific dashboards (e.g., /user-dashboard, /business-dashboard, /admin-dashboard).
-
-Include a logout feature.
-
-Use React Router for navigation.
-
-
 Made with Floot.
 
 # Instructions
