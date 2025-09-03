@@ -5,20 +5,22 @@ import { NotAuthenticatedError } from "../../../helpers/getSetServerSession";
 import superjson from "superjson";
 import { Selectable } from "kysely";
 import { Businesses, BusinessStatus } from "../../../helpers/schema";
+import { createNotification } from "../../../helpers/notificationService";
 
 async function updateBusinessStatus(
   businessId: number,
   status: BusinessStatus
 ): Promise<Selectable<Businesses>> {
-  const updatedBusiness = await db
-    .updateTable("businesses")
-    .set({ status, updatedAt: new Date() })
-    .where("id", "=", businessId)
-    .where("status", "=", "pending")
-    .returningAll()
+  // Get business details before updating for notification
+  const businessToUpdate = await db
+    .selectFrom("businesses")
+    .innerJoin("users", "users.id", "businesses.ownerId")
+    .select(["businesses.id", "businesses.businessName", "users.email as ownerEmail"])
+    .where("businesses.id", "=", businessId)
+    .where("businesses.status", "=", "pending")
     .executeTakeFirst();
 
-  if (!updatedBusiness) {
+  if (!businessToUpdate) {
     const currentBusiness = await db.selectFrom("businesses").where("id", "=", businessId).selectAll().executeTakeFirst();
     if (!currentBusiness) {
         throw new Error("Business not found.");
@@ -28,6 +30,28 @@ async function updateBusinessStatus(
     }
     throw new Error("Failed to reject business.");
   }
+
+  const updatedBusiness = await db
+    .updateTable("businesses")
+    .set({ status, updatedAt: new Date() })
+    .where("id", "=", businessId)
+    .where("status", "=", "pending")
+    .returningAll()
+    .executeTakeFirst();
+
+  if (!updatedBusiness) {
+    throw new Error("Failed to reject business.");
+  }
+
+        // Create notification for business owner about rejection
+      await createNotification(db, {
+        recipientId: updatedBusiness.ownerId,
+        recipientType: 'user',
+        type: 'business_rejected',
+        title: 'Business Application Rejected',
+        message: `Your business application "${businessToUpdate.businessName}" has been rejected. You cannot log in with this account. Please contact support for more information.`,
+        data: { businessId: businessToUpdate.id, businessName: businessToUpdate.businessName }
+      });
 
   return updatedBusiness;
 }

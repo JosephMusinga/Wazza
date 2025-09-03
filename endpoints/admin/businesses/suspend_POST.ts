@@ -5,6 +5,7 @@ import { NotAuthenticatedError } from "../../../helpers/getSetServerSession";
 import superjson from "superjson";
 import { Selectable } from "kysely";
 import { Businesses, BusinessStatus } from "../../../helpers/schema";
+import { createNotification } from "../../../helpers/notificationService";
 
 async function updateBusinessStatus(
   businessId: number,
@@ -37,11 +38,21 @@ export async function handle(request: Request): Promise<Response> {
     const json = superjson.parse(await request.text());
     const { businessId } = schema.parse(json);
 
-    const business = await updateBusinessStatus(businessId, "suspended");
+      const business = await updateBusinessStatus(businessId, "suspended");
 
-    return new Response(superjson.stringify({ business } satisfies OutputType), {
-      headers: { "Content-Type": "application/json" },
-    });
+  // Create notification for business owner about suspension
+  await createNotification(db, {
+    recipientId: business.ownerId,
+    recipientType: 'user',
+    type: 'business_suspended',
+    title: 'Business Account Suspended',
+    message: `Your business "${business.businessName}" has been suspended. You cannot log in or operate until the suspension is lifted.`,
+    data: { businessId: business.id, businessName: business.businessName }
+  });
+
+  return new Response(superjson.stringify({ business } satisfies OutputType), {
+    headers: { "Content-Type": "application/json" },
+  });
   } catch (error) {
     if (error instanceof NotAuthenticatedError) {
       return new Response(

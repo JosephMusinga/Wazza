@@ -13,6 +13,9 @@ export type Business = {
   latitude: number;
   longitude: number;
   description: string;
+  phone: string | null;
+  website: string | null;
+  businessType: string | null;
 };
 
 export type OutputType = Business[];

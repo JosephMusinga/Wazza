@@ -162,6 +162,22 @@ export async function handle(request: Request) {
         })
         .execute();
 
+      // Check business status if user is a business owner
+      if (user.role === "business") {
+        const business = await trx
+          .selectFrom("businesses")
+          .select(["id", "status"])
+          .where("ownerId", "=", user.id)
+          .executeTakeFirst();
+
+        if (business && business.status !== "active") {
+          return {
+            type: "business_pending" as const,
+            status: business.status,
+          };
+        }
+      }
+
       // Create session inside the same transaction to ensure atomicity
       const sessionId = randomBytes(32).toString("hex");
       const expiresAt = new Date(
@@ -226,6 +242,17 @@ export async function handle(request: Request) {
       return Response.json(
         { message: "Invalid email or password" },
         { status: 401 }
+      );
+    }
+
+    if (result.type === "business_pending") {
+      const statusMessage = result.status === "pending" 
+        ? "Your business account is pending admin approval. You will be able to log in once approved."
+        : `Your business account has been ${result.status}. Please contact support for more information.`;
+      
+      return Response.json(
+        { message: statusMessage },
+        { status: 403 }
       );
     }
 

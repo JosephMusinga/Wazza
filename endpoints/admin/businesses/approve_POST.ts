@@ -5,12 +5,34 @@ import { NotAuthenticatedError } from "../../../helpers/getSetServerSession";
 import superjson from "superjson";
 import { Selectable } from "kysely";
 import { Businesses } from "../../../helpers/schema";
+import { createNotification } from "../../../helpers/notificationService";
 
 async function updateBusinessStatus(
   businessId: number,
   adminUserId: number
 ): Promise<Selectable<Businesses>> {
   const now = new Date();
+  
+  // Get business details before updating for notification
+  const businessToUpdate = await db
+    .selectFrom("businesses")
+    .innerJoin("users", "users.id", "businesses.ownerId")
+    .select(["businesses.id", "businesses.businessName", "users.email as ownerEmail"])
+    .where("businesses.id", "=", businessId)
+    .where("businesses.status", "=", "pending")
+    .executeTakeFirst();
+
+  if (!businessToUpdate) {
+    const currentBusiness = await db.selectFrom("businesses").where("id", "=", businessId).selectAll().executeTakeFirst();
+    if (!currentBusiness) {
+        throw new Error("Business not found.");
+    }
+    if (currentBusiness.status !== 'pending') {
+        throw new Error(`Cannot approve a business with status: ${currentBusiness.status}.`);
+    }
+    throw new Error("Failed to approve business.");
+  }
+
   const updatedBusiness = await db
     .updateTable("businesses")
     .set({
@@ -25,15 +47,18 @@ async function updateBusinessStatus(
     .executeTakeFirst();
 
   if (!updatedBusiness) {
-    const currentBusiness = await db.selectFrom("businesses").where("id", "=", businessId).selectAll().executeTakeFirst();
-    if (!currentBusiness) {
-        throw new Error("Business not found.");
-    }
-    if (currentBusiness.status !== 'pending') {
-        throw new Error(`Cannot approve a business with status: ${currentBusiness.status}.`);
-    }
     throw new Error("Failed to approve business.");
   }
+
+  // Create notification for business owner about approval
+  await createNotification(db, {
+    recipientId: updatedBusiness.ownerId,
+    recipientType: 'user',
+    type: 'business_approved',
+    title: 'Business Approved!',
+    message: `Congratulations! Your business "${businessToUpdate.businessName}" has been approved and is now active on the platform.`,
+    data: { businessId: businessToUpdate.id, businessName: businessToUpdate.businessName }
+  });
 
   return updatedBusiness;
 }

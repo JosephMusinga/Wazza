@@ -63,8 +63,8 @@ export async function handle(request: Request): Promise<Response> {
     let totalSalesVolumeQuery = db
       .selectFrom("orders")
       .select((eb) => eb.fn.sum<string>("totalAmount").as("total"))
-      .where('status', 'in', ['completed', 'processing']);
-    totalSalesVolumeQuery = applyDateFilter(totalSalesVolumeQuery, 'orders', 'completedAt');
+      .where('status', 'in', ['collected']);
+    totalSalesVolumeQuery = applyDateFilter(totalSalesVolumeQuery, 'orders', 'updatedAt');
 
     // Metric: Top 5 Popular Products
     let topProductsQuery = db
@@ -79,7 +79,7 @@ export async function handle(request: Request): Promise<Response> {
       .groupBy(["products.id", "products.name"])
       .orderBy("salesCount", "desc")
       .limit(5);
-    topProductsQuery = applyDateFilter(topProductsQuery, 'orders', 'completedAt');
+    topProductsQuery = applyDateFilter(topProductsQuery, 'orders', 'updatedAt');
 
 
     const [

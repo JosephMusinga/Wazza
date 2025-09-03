@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { PasswordLoginForm } from "../components/PasswordLoginForm";
 import { useAuth } from "../helpers/useAuth";
 import { AuthLoadingState } from "../components/AuthLoadingState";
-import { Zap, Info } from "lucide-react";
+import { Zap } from "lucide-react";
 import styles from "./_index.module.css";
 
 const IndexPage = () => {
@@ -49,18 +49,7 @@ const IndexPage = () => {
             <h1 className={styles.brandName}>Wazza</h1>
           </div>
 
-          <div className={styles.testCredentials}>
-            <Info size={16} className={styles.infoIcon} />
-            <div>
-              <p className={styles.testCredsTitle}>Test Credentials</p>
-              <p className={styles.testCredsText}>
-                <strong>Email:</strong> joshatjoe@gmail.com
-              </p>
-              <p className={styles.testCredsText}>
-                <strong>Password:</strong> 7-Table-Video-Light-Robot
-              </p>
-            </div>
-          </div>
+          
 
           <PasswordLoginForm />
 

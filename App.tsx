@@ -21,6 +21,8 @@ import Page_8 from "./pages/admin.user-management.tsx";
 import PageLayout_8 from "./pages/admin.user-management.pageLayout.tsx";
 import Page_9 from "./pages/admin.business-management.tsx";
 import PageLayout_9 from "./pages/admin.business-management.pageLayout.tsx";
+import Page_10 from "./pages/business-products.tsx";
+import BusinessProductsPageLayout from "./pages/business-products.pageLayout.tsx";
 
 if (!window.requestIdleCallback) {
   window.requestIdleCallback = (cb) => {
@@ -30,7 +32,7 @@ if (!window.requestIdleCallback) {
 
 import "./base.css";
 
-const fileNameToRoute = new Map([["./pages/_index.tsx","/"],["./pages/register.tsx","/register"],["./pages/dashboard.tsx","/dashboard"],["./pages/user.profile.tsx","/user/profile"],["./pages/user-dashboard.tsx","/user-dashboard"],["./pages/admin-dashboard.tsx","/admin-dashboard"],["./pages/business-dashboard.tsx","/business-dashboard"],["./pages/user-checkout-demo.tsx","/user-checkout-demo"],["./pages/admin.user-management.tsx","/admin/user-management"],["./pages/admin.business-management.tsx","/admin/business-management"]]);
+const fileNameToRoute = new Map([["./pages/_index.tsx","/"],["./pages/register.tsx","/register"],["./pages/dashboard.tsx","/dashboard"],["./pages/user.profile.tsx","/user/profile"],["./pages/user-dashboard.tsx","/user-dashboard"],["./pages/admin-dashboard.tsx","/admin-dashboard"],["./pages/business-dashboard.tsx","/business-dashboard"],["./pages/user-checkout-demo.tsx","/user-checkout-demo"],["./pages/admin.user-management.tsx","/admin/user-management"],["./pages/admin.business-management.tsx","/admin/business-management"],["./pages/business-products.tsx","/business-products"]]);
 const fileNameToComponent = new Map([
     ["./pages/_index.tsx", Page_0],
 ["./pages/register.tsx", Page_1],
@@ -42,6 +44,7 @@ const fileNameToComponent = new Map([
 ["./pages/user-checkout-demo.tsx", Page_7],
 ["./pages/admin.user-management.tsx", Page_8],
 ["./pages/admin.business-management.tsx", Page_9],
+["./pages/business-products.tsx", Page_10],
   ]);
 
 function makePageRoute(filename: string) {
@@ -132,6 +135,7 @@ export function App() {
 "./pages/user-checkout-demo.tsx": PageLayout_7,
 "./pages/admin.user-management.tsx": PageLayout_8,
 "./pages/admin.business-management.tsx": PageLayout_9,
+"./pages/business-products.tsx": [BusinessProductsPageLayout],
 }), fileNameToRoute, makePageRoute })} 
           <Route path="*" element={<NotFound />} />
         </Routes>

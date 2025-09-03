@@ -12,6 +12,7 @@ import { Skeleton } from './Skeleton';
 import { Button } from './Button';
 import { Spinner } from './Spinner';
 import { UserProductBrowsing } from './UserProductBrowsing';
+
 import { 
   Dialog, 
   DialogContent, 
@@ -111,6 +112,7 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
   const [isAuthPromptOpen, setIsAuthPromptOpen] = useState(false);
   const [authPromptBusinessName, setAuthPromptBusinessName] = useState('');
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+
   const [isLoadingLocation, setIsLoadingLocation] = useState(true);
   const [locationError, setLocationError] = useState<string | null>(null);
 
@@ -218,19 +220,11 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
     return <MapError onRetry={() => refetch()} />;
   }
 
-  // If a business is selected, show the business products view
+  // If a business is selected, navigate to the business products page
   if (selectedBusiness) {
-    return (
-      <div className={`${styles.businessViewContainer} ${className || ''}`}>
-        {/* Business products content */}
-        <div className={styles.businessProductsContent}>
-          <UserProductBrowsing 
-            businessId={selectedBusiness.id} 
-            className={styles.embeddedProductBrowsing}
-          />
-        </div>
-      </div>
-    );
+    // Navigate to the business products page with query parameter
+    window.location.href = `/business-products?businessId=${selectedBusiness.id}`;
+    return null;
   }
 
   // Default map view
@@ -256,7 +250,7 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
                 key={business.id}
                 position={[business.latitude, business.longitude]}
               >
-                <Popup className={styles.customPopup} minWidth={300} maxWidth={340}>
+                <Popup className={styles.customPopup} minWidth={250} maxWidth={300}>
                   <div className={styles.popupContent}>
                     <div className={styles.popupHeader}>
                       <div className={styles.businessIcon}>
@@ -264,18 +258,14 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
                       </div>
                       <div className={styles.businessInfo}>
                         <h4 className={styles.businessName}>{business.name}</h4>
+                        {business.businessType && (
+                          <p className={styles.businessType}>{business.businessType}</p>
+                        )}
                         <p className={styles.businessAddress}>{business.address}</p>
-                        <div className={styles.giftEnabledBadge}>
-                          <Heart size={12} />
-                          Gift Enabled
-                        </div>
                       </div>
                     </div>
                     
                     <div className={styles.popupDetails}>
-                      <p className={styles.businessDescription}>
-                        {business.description}
-                      </p>
                       <div className={styles.popupActions}>
                         <Button 
                           size="sm" 
@@ -318,6 +308,7 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
         onClose={handleCloseAuthPrompt}
         businessName={authPromptBusinessName}
       />
+
     </>
   );
 };

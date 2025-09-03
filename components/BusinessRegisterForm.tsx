@@ -10,6 +10,7 @@ import {
   useForm,
 } from "./Form";
 import { Input } from "./Input";
+import { PasswordInput } from "./PasswordInput";
 import { Button } from "./Button";
 import { Spinner } from "./Spinner";
 import { MapPin, ArrowLeft } from "lucide-react";
@@ -18,21 +19,12 @@ import styles from "./BusinessRegisterForm.module.css";
 import { useAuth } from "../helpers/useAuth";
 import {
   schema,
-  postRegister,
-} from "../endpoints/auth/register_with_password_POST.schema";
+  postRegisterBusiness,
+} from "../endpoints/auth/register_business_POST.schema";
 import { User } from "../helpers/User";
 
-// Extended schema for business registration
-const businessSchema = schema.extend({
-  businessName: z.string().min(1, "Business name is required"),
-  businessType: z.string().min(1, "Business type is required"),
-  businessDescription: z.string().optional(),
-  businessPhone: z.string().min(1, "Business phone is required"),
-  businessWebsite: z.string().url().optional().or(z.literal("")),
-  latitude: z.number().min(-90).max(90),
-  longitude: z.number().min(-180).max(180),
-  address: z.string().min(1, "Address is required"),
-});
+// Use the business registration schema directly
+const businessSchema = schema;
 
 export type BusinessRegisterFormData = z.infer<typeof businessSchema>;
 
@@ -68,6 +60,7 @@ export const BusinessRegisterForm: React.FC<BusinessRegisterFormProps> = ({
       longitude: 31.0335,
       address: "",
     },
+    mode: "onChange", // Enable real-time validation
   });
 
   const handleSubmit = async (data: BusinessRegisterFormData) => {
@@ -75,18 +68,60 @@ export const BusinessRegisterForm: React.FC<BusinessRegisterFormProps> = ({
     setIsLoading(true);
 
     try {
-      // Prepare data for registration (remove business-specific fields)
-      const registrationData = {
-        email: data.email,
-        password: data.password,
-        displayName: data.displayName,
-        phone: data.phone,
-        nationalId: data.nationalId,
-        role: data.role,
-      };
-
-      const result = await postRegister(registrationData);
+      console.log("Submitting business registration data:", data);
+      console.log("Data type:", typeof data);
+      console.log("Data stringified:", JSON.stringify(data));
+      
+      // Check if all required fields are filled
+      const requiredFields = ['email', 'password', 'displayName', 'phone', 'nationalId', 'businessName', 'businessType', 'businessPhone', 'address'];
+      const missingFields = requiredFields.filter(field => !data[field as keyof BusinessRegisterFormData]);
+      
+      if (missingFields.length > 0) {
+        throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+      }
+      
+      // Validate the data before sending
+      let validatedData;
+      try {
+        // Ensure proper data types before validation
+        const processedData = {
+          ...data,
+          latitude: Number(data.latitude),
+          longitude: Number(data.longitude),
+          businessWebsite: data.businessWebsite || "",
+        };
+        
+        console.log("Processed data before validation:", processedData);
+        
+        validatedData = businessSchema.parse(processedData);
+        console.log("Validated data:", validatedData);
+      } catch (validationError) {
+        console.error("Validation error:", validationError);
+        throw validationError;
+      }
+      
+      const result = await postRegisterBusiness(validatedData);
       console.log("Business registration successful for:", data.email);
+      
+      // Show success message about pending approval
+      const successMessage = `Business registration successful! 🎉
+
+Your business "${data.businessName}" has been registered and is now pending admin approval.
+
+What happens next:
+• An email confirmation will be sent to ${data.email} (feature coming soon)
+• Admin will review your business application
+• You'll receive notification once approved
+• After approval, you can log in and start adding products
+
+⚠️ IMPORTANT: You cannot log in until your business is approved by an admin.
+
+Status: Pending Approval ⏳
+
+You can close this window and wait for admin approval.`;
+      
+      alert(successMessage);
+      
       onLogin(result.user);
       if (onRegisterSuccess) {
         onRegisterSuccess(result.user);
@@ -224,8 +259,7 @@ export const BusinessRegisterForm: React.FC<BusinessRegisterFormProps> = ({
             <FormItem name="password">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
+                <PasswordInput
                   placeholder="••••••••"
                   value={form.values.password || ""}
                   onChange={(e) =>
@@ -363,12 +397,13 @@ export const BusinessRegisterForm: React.FC<BusinessRegisterFormProps> = ({
               <LocationPicker
                 latitude={mapPosition.lat}
                 longitude={mapPosition.lng}
-                onLocationChange={(lat, lng) => {
+                onLocationChange={(lat, lng, address) => {
                   setMapPosition({ lat, lng });
                   form.setValues((prev) => ({
                     ...prev,
                     latitude: lat,
                     longitude: lng,
+                    address: address || prev.address,
                   }));
                 }}
               />

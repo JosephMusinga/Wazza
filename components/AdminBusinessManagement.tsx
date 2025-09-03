@@ -273,6 +273,16 @@ export const AdminBusinessManagement = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Business Management</h1>
+              <div className={styles.workflowInfo}>
+          <p><strong>Approval Workflow:</strong></p>
+          <ul>
+            <li>New businesses start with <strong>"Pending"</strong> status</li>
+            <li>Review business details and approve/reject applications</li>
+            <li>Only <strong>"Active"</strong> businesses appear on the map for users to shop</li>
+            <li>Rejected businesses cannot be reactivated</li>
+            <li><strong>Login Restriction:</strong> Pending businesses cannot log in until approved</li>
+          </ul>
+        </div>
       <div className={styles.filters}>
         <div className={styles.searchWrapper}>
           <Search className={styles.searchIcon} />

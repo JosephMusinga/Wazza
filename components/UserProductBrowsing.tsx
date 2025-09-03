@@ -32,12 +32,21 @@ import {
   Gift,
   ArrowLeft,
   Copy,
+  MapPin,
 } from "lucide-react";
 import styles from "./UserProductBrowsing.module.css";
 
 interface UserProductBrowsingProps {
   businessId: number;
   className?: string;
+  business?: {
+    name: string;
+    businessType: string | null;
+    address: string;
+    phone: string | null;
+    website: string | null;
+    description: string | null;
+  };
 }
 
 type PurchaseType = "selection" | "receipt" | "self" | "gift";
@@ -57,6 +66,7 @@ const ProductCardSkeleton: React.FC = () => (
 export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
   businessId,
   className,
+  business,
 }) => {
   const { data: products, isFetching, error } = useQuery({
     queryKey: ["businessProducts", businessId],
@@ -72,6 +82,7 @@ export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
 
   const [purchaseType, setPurchaseType] = useState<PurchaseType>("selection");
   const [orderData, setOrderData] = useState<{id: number; redemptionCode: string} | null>(null);
+  const [businessInfoOpen, setBusinessInfoOpen] = useState(false);
 
   const businessCart = useMemo(() => cartForBusiness(businessId), [cartForBusiness, businessId]);
   const businessCartItems = Object.values(businessCart);
@@ -387,6 +398,8 @@ export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
 
   return (
     <div className={`${styles.container} ${className || ""}`}>
+
+
       {isFetching && products && (
         <div className={styles.refreshingIndicator}>
           <Spinner size="sm" />
@@ -442,6 +455,59 @@ export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
               </DialogDescription>
             </DialogHeader>
             {renderCartContent()}
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Business Information Popup */}
+      {business && (
+        <Dialog open={businessInfoOpen} onOpenChange={setBusinessInfoOpen}>
+          <DialogContent className={styles.businessInfoDialog}>
+            <DialogHeader>
+              <DialogTitle className={styles.businessInfoTitle}>
+                <Gift size={20} />
+                Business Information
+              </DialogTitle>
+            </DialogHeader>
+            
+            <div className={styles.businessInfoContent}>
+              <div className={styles.businessInfoSection}>
+                <h3 className={styles.businessInfoName}>{business.name}</h3>
+                {business.businessType && (
+                  <span className={styles.businessInfoType}>{business.businessType}</span>
+                )}
+                <p className={styles.businessInfoAddress}>
+                  <MapPin size={16} />
+                  {business.address}
+                </p>
+                {business.description && (
+                  <p className={styles.businessInfoDescription}>{business.description}</p>
+                )}
+              </div>
+              
+              <div className={styles.businessContactSection}>
+                <h4 className={styles.contactSectionTitle}>Contact Details</h4>
+                {business.phone && (
+                  <div className={styles.contactInfoItem}>
+                    <span className={styles.contactInfoLabel}>Phone:</span>
+                    <span className={styles.contactInfoValue}>{business.phone}</span>
+                  </div>
+                )}
+                {business.website && (
+                  <div className={styles.contactInfoItem}>
+                    <span className={styles.contactInfoLabel}>Website:</span>
+                    <a 
+                      href={business.website.startsWith('http') ? business.website : `https://${business.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.contactInfoWebsite}
+                    >
+                      {business.website}
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
       )}

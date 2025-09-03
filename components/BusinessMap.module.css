@@ -91,6 +91,8 @@
 
 
 
+
+
 .businessProductsContent {
   flex: 1;
   padding: var(--spacing-6);
@@ -113,17 +115,89 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border);
+  max-width: 320px;
+  width: 90vw;
 }
 
 .customPopup .leaflet-popup-content {
   margin: 0;
   padding: 0;
   line-height: 1.4;
+  width: 100% !important;
 }
 
 .customPopup .leaflet-popup-tip {
   background-color: var(--card);
   border-color: var(--border);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .customPopup .leaflet-popup-content-wrapper {
+    width: 85vw;
+    max-width: 300px;
+  }
+  
+  .customPopup .leaflet-popup-content {
+    font-size: 0.875rem;
+  }
+  
+  .popupHeader {
+    padding: var(--spacing-3);
+    gap: var(--spacing-2);
+  }
+  
+  .businessIcon {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .businessName {
+    font-size: 0.9rem;
+  }
+  
+  .businessType {
+    font-size: 0.7rem;
+    padding: var(--spacing-1);
+  }
+  
+  .businessAddress {
+    font-size: 0.8rem;
+  }
+  
+  .popupDetails {
+    padding: var(--spacing-3);
+  }
+  
+  .businessDescription {
+    font-size: 0.8rem;
+  }
+  
+  .businessContact {
+    padding: var(--spacing-2);
+  }
+  
+  .contactItem {
+    font-size: 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-1);
+  }
+  
+  .contactLabel {
+    min-width: auto;
+  }
+  
+  .contactValue,
+  .websiteLink {
+    text-align: left;
+    width: 100%;
+  }
+  
+  .giftEnabledBadge {
+    font-size: 0.7rem;
+    padding: var(--spacing-1);
+  }
 }
 
 .popupContent {
@@ -167,6 +241,18 @@
   line-height: 1.4;
 }
 
+.businessType {
+  font-size: 0.75rem;
+  color: var(--primary);
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-full);
+  margin: 0 0 var(--spacing-1);
+  display: inline-block;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
 .businessAddress {
   font-size: 0.875rem;
   color: var(--muted-foreground);
@@ -195,7 +281,50 @@
   font-size: 0.875rem;
   color: var(--foreground);
   line-height: 1.5;
-  margin: 0 0 var(--spacing-4);
+  margin: 0 0 var(--spacing-3);
+}
+
+.businessContact {
+  margin: 0 0 var(--spacing-3);
+  padding: var(--spacing-3);
+  background-color: color-mix(in srgb, var(--muted) 20%, transparent);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.contactItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-2);
+  font-size: 0.8rem;
+}
+
+.contactItem:last-child {
+  margin-bottom: 0;
+}
+
+.contactLabel {
+  font-weight: 500;
+  color: var(--muted-foreground);
+  min-width: 60px;
+}
+
+.contactValue {
+  color: var(--foreground);
+  text-align: right;
+  word-break: break-word;
+}
+
+.websiteLink {
+  color: var(--primary);
+  text-decoration: none;
+  word-break: break-all;
+  text-align: right;
+}
+
+.websiteLink:hover {
+  text-decoration: underline;
 }
 
 .popupActions {
@@ -405,6 +534,22 @@
     padding: var(--spacing-4);
   }
   
+  .businessViewHeader {
+    padding: var(--spacing-4);
+  }
+  
+  .headerLeft {
+    gap: var(--spacing-2);
+  }
+  
+  .businessTitle {
+    gap: var(--spacing-1);
+  }
+  
+  .businessName {
+    font-size: 1.125rem;
+  }
+  
   .popupHeader {
     padding: var(--spacing-3);
   }
@@ -489,3 +634,4 @@
     padding: var(--spacing-6);
   }
 }
+

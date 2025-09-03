@@ -16,15 +16,34 @@ L.Icon.Default.mergeOptions({
 interface LocationPickerProps {
   latitude: number;
   longitude: number;
-  onLocationChange: (lat: number, lng: number) => void;
+  onLocationChange: (lat: number, lng: number, address?: string) => void;
 }
 
 // Component to handle map clicks
-const MapClickHandler: React.FC<{ onLocationChange: (lat: number, lng: number) => void }> = ({ onLocationChange }) => {
+const MapClickHandler: React.FC<{ onLocationChange: (lat: number, lng: number, address?: string) => void }> = ({ onLocationChange }) => {
   useMapEvents({
-    click: (e) => {
+    click: async (e) => {
       const { lat, lng } = e.latlng;
-      onLocationChange(lat, lng);
+      
+      try {
+        // Reverse geocoding using OpenStreetMap Nominatim API
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+        );
+        
+        if (response.ok) {
+          const data = await response.json();
+          const address = data.display_name || `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+          onLocationChange(lat, lng, address);
+        } else {
+          // Fallback to coordinates if geocoding fails
+          onLocationChange(lat, lng, `${lat.toFixed(6)}, ${lng.toFixed(6)}`);
+        }
+      } catch (error) {
+        console.error('Reverse geocoding failed:', error);
+        // Fallback to coordinates if geocoding fails
+        onLocationChange(lat, lng, `${lat.toFixed(6)}, ${lng.toFixed(6)}`);
+      }
     },
   });
   return null;
@@ -83,3 +102,4 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
     </div>
   );
 };
+

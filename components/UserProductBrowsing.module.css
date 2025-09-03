@@ -3,6 +3,194 @@
   position: relative;
 }
 
+.businessNameHeader {
+  margin-bottom: var(--spacing-6);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.businessNameSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.businessNameTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.infoButton {
+  color: var(--muted-foreground);
+  transition: color var(--animation-duration-fast) ease;
+}
+
+.infoButton:hover {
+  color: var(--primary);
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+/* Business Info Popup Styles */
+.businessInfoDialog {
+  max-width: 500px !important;
+  width: 90vw !important;
+}
+
+.businessInfoTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--primary);
+}
+
+.businessInfoContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.businessInfoSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.businessInfoName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.businessInfoType {
+  display: inline-block;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  align-self: flex-start;
+}
+
+.businessInfoAddress {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.businessInfoDescription {
+  font-size: 0.9rem;
+  color: var(--foreground);
+  line-height: 1.5;
+  margin: 0;
+  padding: var(--spacing-3);
+  background-color: color-mix(in srgb, var(--muted) 20%, transparent);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.businessContactSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.contactSectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+  padding-bottom: var(--spacing-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.contactInfoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2) 0;
+  font-size: 0.875rem;
+}
+
+.contactInfoLabel {
+  font-weight: 500;
+  color: var(--muted-foreground);
+  min-width: 80px;
+}
+
+.contactInfoValue {
+  color: var(--foreground);
+  text-align: right;
+  word-break: break-word;
+}
+
+.contactInfoWebsite {
+  color: var(--primary);
+  text-decoration: none;
+  word-break: break-all;
+  text-align: right;
+}
+
+.contactInfoWebsite:hover {
+  text-decoration: underline;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .businessNameHeader {
+    margin-bottom: var(--spacing-4);
+    padding-bottom: var(--spacing-3);
+  }
+  
+  .businessNameSection {
+    gap: var(--spacing-1);
+  }
+  
+  .businessNameTitle {
+    font-size: 1.25rem;
+  }
+  
+  .businessInfoDialog {
+    width: 95vw !important;
+  }
+  
+  .businessInfoContent {
+    gap: var(--spacing-4);
+  }
+  
+  .businessInfoName {
+    font-size: 1.25rem;
+  }
+  
+  .contactInfoItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-1);
+  }
+  
+  .contactInfoLabel {
+    min-width: auto;
+  }
+  
+  .contactInfoValue,
+  .contactInfoWebsite {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+
+
 .loadingHeader {
   margin-bottom: var(--spacing-6);
 }
