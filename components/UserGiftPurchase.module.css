@@ -65,8 +65,24 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4);
+  gap: var(--spacing-6);
   max-width: 500px;
+}
+
+.formSection {
+  background-color: var(--muted);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-4) 0;
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--spacing-2);
 }
 
 /* Step 4: Summary */

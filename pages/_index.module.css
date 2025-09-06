@@ -17,6 +17,24 @@
   position: relative;
 }
 
+.successMessage {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: var(--success-light);
+  color: var(--success-dark);
+  padding: var(--spacing-3);
+  border-radius: var(--radius);
+  margin-bottom: var(--spacing-4);
+  border: 1px solid var(--success);
+}
+
+.successMessage p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
 @media (max-width: 768px) {
   .pageContainer {
     padding: var(--spacing-3);
@@ -40,7 +58,23 @@
     margin-bottom: var(--spacing-6);
   }
 
-  
+  .successMessage {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    background-color: var(--success-light);
+    color: var(--success-dark);
+    padding: var(--spacing-3);
+    border-radius: var(--radius);
+    margin-bottom: var(--spacing-4);
+    border: 1px solid var(--success);
+  }
+
+  .successMessage p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
 }
 
 @media (max-width: 480px) {

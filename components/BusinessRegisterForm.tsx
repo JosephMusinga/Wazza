@@ -40,7 +40,7 @@ export const BusinessRegisterForm: React.FC<BusinessRegisterFormProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mapPosition, setMapPosition] = useState({ lat: -17.8252, lng: 31.0335 }); // Default to Harare
-  const { onLogin } = useAuth();
+  // Removed onLogin - we don't want to auto-login after registration
 
   const form = useForm({
     schema: businessSchema,
@@ -104,17 +104,20 @@ export const BusinessRegisterForm: React.FC<BusinessRegisterFormProps> = ({
       console.log("Business registration successful for:", data.email);
       
       // Show success message about pending approval
-      const successMessage = `Business registration successful! 🎉
+      const successMessage = `Agent Seller Registration Successful! 🎉
 
-Your business "${data.businessName}" has been registered and is now pending admin approval.
+Your business "${data.businessName}" has been registered as an Agent Seller and is now pending admin approval.
 
 What happens next:
 • An email confirmation will be sent to ${data.email} (feature coming soon)
-• Admin will review your business application
+• Admin will review your Agent Seller application
 • You'll receive notification once approved
-• After approval, you can log in and start adding products
+• After approval, you can log in as an Agent Seller
+• You'll be able to manage products for your business
+• You'll also be able to shop from other businesses (excluding your own)
+• Your business will appear on the customer map for gift orders
 
-⚠️ IMPORTANT: You cannot log in until your business is approved by an admin.
+⚠️ IMPORTANT: You cannot log in until your Agent Seller application is approved by an admin.
 
 Status: Pending Approval ⏳
 
@@ -122,7 +125,7 @@ You can close this window and wait for admin approval.`;
       
       alert(successMessage);
       
-      onLogin(result.user);
+      // Don't call onLogin here - let the redirect happen via onRegisterSuccess
       if (onRegisterSuccess) {
         onRegisterSuccess(result.user);
       }
@@ -169,9 +172,9 @@ You can close this window and wait for admin approval.`;
           <ArrowLeft size={20} />
           Back to Role Selection
         </button>
-        <h1 className={styles.title}>Register Your Business</h1>
+        <h1 className={styles.title}>Register as Agent Seller</h1>
         <p className={styles.subtitle}>
-          Create your business account and set up your location
+          Join our Wazza X Business collaboration to represent your business and also shop from other businesses
         </p>
       </div>
 

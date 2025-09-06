@@ -99,13 +99,15 @@ interface BusinessMapProps {
   selectedBusiness: Business | null;
   onBusinessSelect: (business: Business) => void;
   onBackToMap: () => void;
+  excludeBusinessId?: number; // For Agent Sellers to exclude their own business
 }
 
 export const BusinessMap: React.FC<BusinessMapProps> = ({ 
   className, 
   selectedBusiness, 
-  onBusinessSelect, 
-  onBackToMap 
+  onBusinessSelect,
+  onBackToMap,
+  excludeBusinessId
 }) => {
   const { authState } = useAuth();
   const isMobile = useIsMobile();
@@ -121,6 +123,22 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
     queryFn: getBusinesses,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
+
+  // Filter out the excluded business (for Agent Sellers)
+  const filteredBusinesses = useMemo(() => {
+    console.log('BusinessMap Debug:', {
+      businesses: businesses?.length || 0,
+      excludeBusinessId,
+      businessesData: businesses
+    });
+    
+    if (!businesses) return [];
+    if (!excludeBusinessId) return businesses;
+    
+    const filtered = businesses.filter(business => business.id !== excludeBusinessId);
+    console.log('Filtered businesses:', filtered.length, 'out of', businesses.length);
+    return filtered;
+  }, [businesses, excludeBusinessId]);
 
   // Default center: Harare, Zimbabwe
   const defaultCenter: [number, number] = [-17.8252, 31.0335];
@@ -227,10 +245,35 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
     return null;
   }
 
+  // Debug logging before rendering
+  console.log('BusinessMap Rendering:', {
+    isFetching,
+    isLoadingLocation,
+    isError,
+    filteredBusinesses: filteredBusinesses?.length || 0,
+    mapCenter,
+    defaultZoom
+  });
+
   // Default map view
   return (
     <>
       <div className={`${styles.mapContainer} ${className || ''}`}>
+        {/* Temporary debug overlay */}
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          background: 'rgba(0,0,0,0.8)',
+          color: 'white',
+          padding: '8px',
+          borderRadius: '4px',
+          zIndex: 1000,
+          fontSize: '12px'
+        }}>
+          Businesses: {filteredBusinesses?.length || 0} | Center: {mapCenter[0].toFixed(4)}, {mapCenter[1].toFixed(4)}
+        </div>
+        
         <div className={styles.leafletMapWrapper}>
           <MapContainer
             center={mapCenter}
@@ -245,7 +288,7 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             
-            {businesses?.map((business) => (
+            {filteredBusinesses?.map((business) => (
               <Marker
                 key={business.id}
                 position={[business.latitude, business.longitude]}

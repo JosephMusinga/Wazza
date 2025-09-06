@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useAuth } from "../helpers/useAuth";
+import { useBusinessProfile } from "../helpers/useBusinessProfile";
 import { useNavigate } from "react-router-dom";
 import {
   LogOut,
@@ -12,6 +13,7 @@ import {
   Zap,
   ShoppingCart,
   ArrowLeft,
+  ShoppingBag,
 } from "lucide-react";
 import { Button } from "../components/Button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/Avatar";
@@ -44,6 +46,17 @@ const UserDashboardPage: React.FC = () => {
   const { totalItems, cartForBusiness } = useShoppingCart();
   const navigate = useNavigate();
   const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
+  
+  // Get business profile for business users to exclude their own business from the map
+  const { data: businessProfileData } = useBusinessProfile();
+  
+  // Determine the business ID to exclude (for Agent Sellers)
+  const excludeBusinessId = authState.type === "authenticated" && 
+    authState.user.role === "business" && 
+    businessProfileData && 
+    'businessProfile' in businessProfileData 
+    ? businessProfileData.businessProfile.id 
+    : undefined;
 
   const handleLogout = async () => {
     await logout();
@@ -110,11 +123,9 @@ const UserDashboardPage: React.FC = () => {
               <Zap className={styles.zapIcon} />
             )}
             <div>
-              <h1 className={styles.brandName}>
-                {selectedBusiness ? selectedBusiness.name : 'Wazza'}
-              </h1>
+              <h1 className={styles.brandName}>Wazza</h1>
               <div className={styles.userName}>
-                {selectedBusiness ? (selectedBusiness.address || 'Address not available') : user.displayName}
+                {user.displayName}
               </div>
             </div>
           </div>
@@ -180,11 +191,9 @@ const UserDashboardPage: React.FC = () => {
               <Zap className={styles.zapIcon} />
             )}
             <div>
-              <div className={styles.brandName}>
-                {selectedBusiness ? selectedBusiness.name : 'Wazza'}
-              </div>
+              <div className={styles.brandName}>Wazza</div>
               <div className={styles.mobileUserName}>
-                {selectedBusiness ? (selectedBusiness.address || 'Address not available') : user.displayName}
+                {user.displayName}
               </div>
             </div>
           </div>
@@ -243,17 +252,18 @@ const UserDashboardPage: React.FC = () => {
               selectedBusiness={selectedBusiness}
               onBusinessSelect={handleBusinessSelect}
               onBackToMap={handleBackToMap}
+              excludeBusinessId={excludeBusinessId}
             />
           ) : (
             <Tabs defaultValue="businesses" className={styles.tabs}>
               <TabsList className={styles.tabsList}>
                 <TabsTrigger value="businesses">
-                  <MapPin size={16} />
-                  Browse & Shop
+                  <ShoppingBag size={16} />
+                  Shop & Send Gifts
                 </TabsTrigger>
                 <TabsTrigger value="orders">
                   <Package size={16} />
-                  Order History
+                  Gift History
                 </TabsTrigger>
               </TabsList>
               
@@ -262,6 +272,7 @@ const UserDashboardPage: React.FC = () => {
                   selectedBusiness={selectedBusiness}
                   onBusinessSelect={handleBusinessSelect}
                   onBackToMap={handleBackToMap}
+                  excludeBusinessId={excludeBusinessId}
                 />
               </TabsContent>
               

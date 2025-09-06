@@ -162,7 +162,15 @@ export async function handle(request: Request) {
         })
         .execute();
 
-      // Check business status if user is a business owner
+      // Check user status for all users (Agent Buyers and Agent Sellers)
+      if (user.status !== "active") {
+        return {
+          type: "user_pending" as const,
+          status: user.status,
+        };
+      }
+
+      // Check business status if user is a business owner (Agent Seller)
       if (user.role === "business") {
         const business = await trx
           .selectFrom("businesses")
@@ -242,6 +250,17 @@ export async function handle(request: Request) {
       return Response.json(
         { message: "Invalid email or password" },
         { status: 401 }
+      );
+    }
+
+    if (result.type === "user_pending") {
+      const statusMessage = result.status === "pending" 
+        ? "Your account is pending admin approval. You will be able to log in once approved."
+        : `Your account has been ${result.status}. Please contact support for more information.`;
+      
+      return Response.json(
+        { message: statusMessage },
+        { status: 403 }
       );
     }
 

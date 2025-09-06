@@ -18,6 +18,8 @@ const recipientFormSchema = z.object({
   recipientName: z.string().min(1, "Recipient name is required."),
   recipientPhone: z.string().min(1, "Recipient phone is required."),
   recipientNationalId: z.string().min(1, "Recipient national ID is required.").max(50, "Recipient national ID is too long."),
+  regularPersonName: z.string().min(1, "Regular person name is required."),
+  regularPersonPhone: z.string().min(1, "Regular person phone is required."),
 });
 
 type RecipientFormData = z.infer<typeof recipientFormSchema>;
@@ -164,12 +166,23 @@ export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, p
               </div>
             )}
             <form className={styles.form}>
-              <Controller name="recipientName" control={control} render={({ field }) => <Input placeholder="Recipient's Full Name" {...field} />} />
-              {errors.recipientName && <p className={styles.errorText}>{errors.recipientName.message}</p>}
-              <Controller name="recipientPhone" control={control} render={({ field }) => <Input placeholder="Recipient's Phone Number" {...field} />} />
-              {errors.recipientPhone && <p className={styles.errorText}>{errors.recipientPhone.message}</p>}
-              <Controller name="recipientNationalId" control={control} render={({ field }) => <Input placeholder="Recipient's National ID" {...field} />} />
-              {errors.recipientNationalId && <p className={styles.errorText}>{errors.recipientNationalId.message}</p>}
+              <div className={styles.formSection}>
+                <h4 className={styles.sectionTitle}>Recipient Details</h4>
+                <Controller name="recipientName" control={control} render={({ field }) => <Input placeholder="Recipient's Full Name" {...field} />} />
+                {errors.recipientName && <p className={styles.errorText}>{errors.recipientName.message}</p>}
+                <Controller name="recipientPhone" control={control} render={({ field }) => <Input placeholder="Recipient's Phone Number" {...field} />} />
+                {errors.recipientPhone && <p className={styles.errorText}>{errors.recipientPhone.message}</p>}
+                <Controller name="recipientNationalId" control={control} render={({ field }) => <Input placeholder="Recipient's National ID" {...field} />} />
+                {errors.recipientNationalId && <p className={styles.errorText}>{errors.recipientNationalId.message}</p>}
+              </div>
+              
+              <div className={styles.formSection}>
+                <h4 className={styles.sectionTitle}>Regular Person Details (Who requested the gift)</h4>
+                <Controller name="regularPersonName" control={control} render={({ field }) => <Input placeholder="Regular Person's Full Name" {...field} />} />
+                {errors.regularPersonName && <p className={styles.errorText}>{errors.regularPersonName.message}</p>}
+                <Controller name="regularPersonPhone" control={control} render={({ field }) => <Input placeholder="Regular Person's Phone Number" {...field} />} />
+                {errors.regularPersonPhone && <p className={styles.errorText}>{errors.regularPersonPhone.message}</p>}
+              </div>
             </form>
           </div>
         );
@@ -196,6 +209,11 @@ export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, p
                 <p>Name: {control._formValues.recipientName}</p>
                 <p>Phone: {control._formValues.recipientPhone}</p>
                 <p>National ID: {control._formValues.recipientNationalId}</p>
+              </div>
+              <div className={styles.summarySection}>
+                <h4>Regular Person (Who requested the gift)</h4>
+                <p>Name: {control._formValues.regularPersonName}</p>
+                <p>Phone: {control._formValues.regularPersonPhone}</p>
               </div>
             </div>
             {createGiftOrderMutation.isError && <p className={styles.errorText}><AlertCircle size={16} /> {createGiftOrderMutation.error.message}</p>}

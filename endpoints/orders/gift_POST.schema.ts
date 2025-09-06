@@ -12,8 +12,9 @@ export const schema = z.object({
   items: z.array(OrderItemSchema).min(1, "A gift order must have at least one item."),
   recipientName: z.string().min(1, "Recipient name is required."),
   recipientPhone: z.string().min(1, "Recipient phone is required."),
-
   recipientNationalId: z.string().min(1, "Recipient national ID is required.").max(50, "Recipient national ID is too long."),
+  regularPersonName: z.string().min(1, "Regular person name is required."),
+  regularPersonPhone: z.string().min(1, "Regular person phone is required."),
 });
 
 export type InputType = z.infer<typeof schema>;

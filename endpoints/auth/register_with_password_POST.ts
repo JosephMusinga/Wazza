@@ -56,6 +56,7 @@ export async function handle(request: Request) {
           phone,
           nationalId,
           role,
+          status: "pending", // Set initial status to pending for admin approval
           address: "Harare, Zimbabwe",
           latitude: "-17.8252",
           longitude: "31.0335",

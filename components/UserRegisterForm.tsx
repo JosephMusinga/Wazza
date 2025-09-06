@@ -34,7 +34,7 @@ export const UserRegisterForm: React.FC<UserRegisterFormProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { onLogin } = useAuth();
+  // Removed onLogin - we don't want to auto-login after registration
 
   const form = useForm({
     schema,
@@ -55,7 +55,8 @@ export const UserRegisterForm: React.FC<UserRegisterFormProps> = ({
     try {
       const result = await postRegister(data);
       console.log("User registration successful for:", data.email);
-      onLogin(result.user);
+      
+      // Don't call onLogin here - let the redirect happen via onRegisterSuccess
       if (onRegisterSuccess) {
         onRegisterSuccess(result.user);
       }
@@ -97,9 +98,9 @@ export const UserRegisterForm: React.FC<UserRegisterFormProps> = ({
           <ArrowLeft size={20} />
           Back to Role Selection
         </button>
-        <h1 className={styles.title}>Create Your Account</h1>
+        <h1 className={styles.title}>Register as Agent Buyer</h1>
         <p className={styles.subtitle}>
-          Join Wazza to browse products and place orders
+          Create your account to shop on behalf of regular people and send gifts
         </p>
       </div>
 

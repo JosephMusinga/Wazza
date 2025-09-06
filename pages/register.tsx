@@ -22,10 +22,12 @@ const RegisterPage: React.FC = () => {
         navigate("/admin-dashboard");
         break;
       case "business":
-        navigate("/business-dashboard");
+        // Agent Sellers need admin approval before accessing dashboard
+        navigate("/?message=registration-success&role=business");
         break;
       case "user":
-        navigate("/user-dashboard");
+        // Agent Buyers need admin approval before accessing dashboard
+        navigate("/?message=registration-success&role=user");
         break;
       default:
         navigate("/"); // Fallback
@@ -56,10 +58,10 @@ const RegisterPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Create Account - Wazza</title>
+        <title>Register as Agent - Wazza</title>
         <meta
           name="description"
-          content="Create a new account to get started."
+          content="Register as an Agent Buyer or Agent Seller to join the Wazza platform."
         />
       </Helmet>
       <div className={styles.container}>

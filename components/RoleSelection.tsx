@@ -16,9 +16,9 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ onRoleSelect }) =>
           <ArrowLeft size={20} />
           Back to Login
         </Link>
-        <h1 className={styles.title}>Choose Your Account Type</h1>
+        <h1 className={styles.title}>Choose Your Agent Role</h1>
         <p className={styles.subtitle}>
-          Select the type of account that best describes you
+          Select the type of agent account that best describes your role
         </p>
       </div>
 
@@ -27,22 +27,23 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ onRoleSelect }) =>
           <div className={styles.roleIcon}>
             <User size={48} />
           </div>
-          <h2 className={styles.roleTitle}>Individual User</h2>
+          <h2 className={styles.roleTitle}>Agent Buyer</h2>
           <p className={styles.roleDescription}>
-            Create an account to browse products, place orders, and manage your personal profile.
+            Shop exclusively on behalf of regular people who don't have app access. Send gifts to recipients who collect from Agent Sellers' businesses.
           </p>
           <ul className={styles.roleFeatures}>
-            <li>Browse and order products</li>
-            <li>Track your orders</li>
-            <li>Manage your profile</li>
-            <li>Receive notifications</li>
+            <li>Gift-only shopping (no personal purchases)</li>
+            <li>Shop on behalf of regular people</li>
+            <li>Track gift orders and history</li>
+            <li>Recipients collect from businesses</li>
+            <li>Receive SMS notifications</li>
           </ul>
           <Button
             onClick={() => onRoleSelect("user")}
             className={styles.selectButton}
             size="lg"
           >
-            Register as User
+            Register as Agent Buyer
           </Button>
         </div>
 
@@ -50,22 +51,23 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ onRoleSelect }) =>
           <div className={styles.roleIcon}>
             <Store size={48} />
           </div>
-          <h2 className={styles.roleTitle}>Business Owner</h2>
+          <h2 className={styles.roleTitle}>Agent Seller</h2>
           <p className={styles.roleDescription}>
-            Register your business to sell products, manage inventory, and grow your customer base.
+            Partner with a real business in our Wazza X Business collaboration. You'll manage products for your business AND also shop from other businesses as an Agent Buyer.
           </p>
           <ul className={styles.roleFeatures}>
-            <li>List and manage products</li>
-            <li>Process customer orders</li>
-            <li>Track business analytics</li>
-            <li>Manage business profile</li>
+            <li>Partner with one business only</li>
+            <li>Manage products for your business</li>
+            <li>Fulfill gift orders from customers</li>
+            <li>Shop from other businesses (excluding your own)</li>
+            <li>Dual role: Business manager + Agent Buyer</li>
           </ul>
           <Button
             onClick={() => onRoleSelect("business")}
             className={styles.selectButton}
             size="lg"
           >
-            Register as Business
+            Register as Agent Seller
           </Button>
         </div>
       </div>

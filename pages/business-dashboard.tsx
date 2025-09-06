@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useAuth } from "../helpers/useAuth";
 import { useBusinessProfile } from "../helpers/useBusinessProfile";
 import { useNavigate } from "react-router-dom";
-import { LogOut, BarChart2, Menu, User, Zap, Settings } from "lucide-react";
+import { Business } from "../endpoints/businesses_GET.schema";
+import { LogOut, BarChart2, Menu, User, Zap, Settings, ShoppingBag } from "lucide-react";
 import { Button } from "../components/Button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/Avatar";
 import { Badge } from "../components/Badge";
@@ -13,6 +14,7 @@ import { Skeleton } from "../components/Skeleton";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/Tabs";
 import { BusinessOrderManagement } from "../components/BusinessOrderManagement";
 import { BusinessProductManagement } from "../components/BusinessProductManagement";
+import { BusinessMap } from "../components/BusinessMap";
 import { 
   DropdownMenu, 
   DropdownMenuTrigger, 
@@ -27,6 +29,7 @@ const BusinessDashboardPage: React.FC = () => {
   const { authState, logout } = useAuth();
   const navigate = useNavigate();
   const { data: businessProfileData, isFetching: isLoadingProfile, error: profileError } = useBusinessProfile();
+  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
 
   const handleLogout = async () => {
     await logout();
@@ -41,6 +44,14 @@ const BusinessDashboardPage: React.FC = () => {
     console.log("Settings clicked");
   };
 
+  const handleBusinessSelect = (business: Business) => {
+    setSelectedBusiness(business);
+  };
+
+  const handleBackToMap = () => {
+    setSelectedBusiness(null);
+  };
+
 
 
   if (authState.type !== "authenticated") {
@@ -48,6 +59,18 @@ const BusinessDashboardPage: React.FC = () => {
   }
 
   const { user } = authState;
+  
+  // Only allow business users to access business dashboard
+  if (user.role !== "business") {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <h2>Access Denied</h2>
+        <p>This dashboard is only available for business users (Agent Sellers).</p>
+        <p>You are currently logged in as a {user.role} user.</p>
+        <p>Please register as an Agent Seller to access this dashboard.</p>
+      </div>
+    );
+  }
   const fallback =
     user.displayName
       ?.split(" ")
@@ -67,7 +90,17 @@ const BusinessDashboardPage: React.FC = () => {
             <Zap className={styles.zapIcon} />
             <div>
               <h1 className={styles.brandName}>Wazza</h1>
-              <div className={styles.userName}>{user.displayName}</div>
+              <div className={styles.userName}>
+                {isLoadingProfile ? (
+                  <Skeleton style={{ width: '150px', height: '1.2rem' }} />
+                ) : profileError ? (
+                  user.displayName
+                ) : businessProfileData && 'businessProfile' in businessProfileData ? (
+                  businessProfileData.businessProfile.businessName
+                ) : (
+                  user.displayName
+                )}
+              </div>
               {isLoadingProfile ? (
                 <Skeleton style={{ width: '200px', height: '1rem', marginTop: 'var(--spacing-1)' }} />
               ) : profileError ? (
@@ -111,7 +144,17 @@ const BusinessDashboardPage: React.FC = () => {
             <Zap className={styles.zapIcon} />
             <div>
               <div className={styles.brandName}>Wazza</div>
-              <div className={styles.mobileUserName}>{user.displayName}</div>
+              <div className={styles.mobileUserName}>
+                {isLoadingProfile ? (
+                  <Skeleton style={{ width: '120px', height: '1rem' }} />
+                ) : profileError ? (
+                  user.displayName
+                ) : businessProfileData && 'businessProfile' in businessProfileData ? (
+                  businessProfileData.businessProfile.businessName
+                ) : (
+                  user.displayName
+                )}
+              </div>
             </div>
           </div>
           <div className={styles.mobileHeaderActions}>
@@ -150,6 +193,10 @@ const BusinessDashboardPage: React.FC = () => {
             <TabsList className={styles.tabsList}>
               <TabsTrigger value="orders">Orders</TabsTrigger>
               <TabsTrigger value="products">Products</TabsTrigger>
+              <TabsTrigger value="shop">
+                <ShoppingBag size={16} />
+                Buy
+              </TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
             </TabsList>
             
@@ -159,6 +206,23 @@ const BusinessDashboardPage: React.FC = () => {
             
             <TabsContent value="products" className={styles.tabContent}>
               <BusinessProductManagement />
+            </TabsContent>
+            
+            <TabsContent value="shop" className={styles.tabContent}>
+              <div className={styles.placeholderContent}>
+                <ShoppingBag className={styles.placeholderIcon} />
+                <h3 className={styles.placeholderTitle}>Shop as Agent Buyer</h3>
+                <p className={styles.placeholderDescription}>
+                  Access the same shopping interface that Agent Buyers use to shop on behalf of regular people.
+                  Browse businesses, select products, and send gifts.
+                </p>
+                <Button 
+                  onClick={() => navigate('/user-dashboard')}
+                >
+                  <ShoppingBag size={16} />
+                  Go to Shopping Interface
+                </Button>
+              </div>
             </TabsContent>
             
             <TabsContent value="analytics" className={styles.tabContent}>

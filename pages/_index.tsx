@@ -1,15 +1,35 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { PasswordLoginForm } from "../components/PasswordLoginForm";
 import { useAuth } from "../helpers/useAuth";
 import { AuthLoadingState } from "../components/AuthLoadingState";
-import { Zap } from "lucide-react";
+import { Zap, CheckCircle } from "lucide-react";
 import styles from "./_index.module.css";
 
 const IndexPage = () => {
   const { authState } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check for registration success message in URL
+    const urlParams = new URLSearchParams(location.search);
+    const message = urlParams.get('message');
+    const role = urlParams.get('role');
+    
+    if (message === 'registration-success') {
+      if (role === 'business') {
+        setSuccessMessage('Agent Seller registration successful! Your application is pending admin approval. You will be notified once approved.');
+      } else if (role === 'user') {
+        setSuccessMessage('Agent Buyer registration successful! Your application is pending admin approval. You will be notified once approved.');
+      }
+      
+      // Clear the URL parameters
+      navigate('/', { replace: true });
+    }
+  }, [location.search, navigate]);
 
   useEffect(() => {
     if (authState.type === "authenticated") {
@@ -37,8 +57,8 @@ const IndexPage = () => {
   return (
     <>
       <Helmet>
-        <title>Login | React Role-Based Auth</title>
-        <meta name="description" content="Log in to your account." />
+        <title>Login | Wazza Agent Platform</title>
+        <meta name="description" content="Log in to your Wazza agent account." />
       </Helmet>
       <div className={styles.pageContainer}>
         <div className={styles.loginCard}>
@@ -49,15 +69,20 @@ const IndexPage = () => {
             <h1 className={styles.brandName}>Wazza</h1>
           </div>
 
-          
+          {successMessage && (
+            <div className={styles.successMessage}>
+              <CheckCircle size={20} />
+              <p>{successMessage}</p>
+            </div>
+          )}
 
           <PasswordLoginForm />
 
           <div className={styles.signupSection}>
             <p className={styles.signupText}>
-              Don't have an account?{" "}
+              New to Wazza?{" "}
               <Link to="/register" className={styles.signupLink}>
-                Sign up
+                Register as Agent
               </Link>
             </p>
           </div>

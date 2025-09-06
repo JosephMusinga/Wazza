@@ -331,20 +331,8 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ className, selectedB
         </div>
 
         <div className={styles.purchaseOptions}>
-          <h4 className={styles.purchaseOptionsTitle}>How would you like to purchase?</h4>
+          <h4 className={styles.purchaseOptionsTitle}>Send as Gift</h4>
           <div className={styles.purchaseOptionButtons}>
-            <Button 
-              variant="outline" 
-              onClick={() => setPurchaseType("receipt")}
-              disabled={businessGroups.length === 0}
-              className={styles.purchaseOption}
-            >
-              <User size={20} />
-              <div className={styles.purchaseOptionText}>
-                <span className={styles.purchaseOptionTitle}>Buy for Myself</span>
-                <span className={styles.purchaseOptionDesc}>Get pickup code after checkout</span>
-              </div>
-            </Button>
             <Button 
               variant="outline" 
               onClick={() => setPurchaseType("gift")}

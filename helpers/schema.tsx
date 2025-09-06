@@ -35,7 +35,7 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export type UserRole = "admin" | "business" | "user";
 
-export type UserStatus = "active" | "banned" | "suspended";
+export type UserStatus = "active" | "banned" | "suspended" | "pending";
 
 export interface Businesses {
   address: string | null;
@@ -63,6 +63,8 @@ export interface GiftOrderMetadata {
   recipientName: string;
   recipientNationalId: string;
   recipientPhone: string | null;
+  regularPersonName: string;
+  regularPersonPhone: string;
   redeemedAt: Timestamp | null;
   redemptionCode: string;
   updatedAt: Generated<Timestamp | null>;
