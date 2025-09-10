@@ -10,17 +10,17 @@ import { nanoid } from 'nanoid';
 
 type DbOrderRow = Selectable<Orders>;
 
-async function simulateSMSSending(recipientPhone: string, redemptionCode: string, regularPersonName: string, regularPersonPhone: string): Promise<void> {
+async function simulateSMSSending(recipientPhone: string, redemptionCode: string, senderName: string, senderPhone: string): Promise<void> {
   console.log(`[SMS Simulation] Sending SMS to ${recipientPhone} with redemption code: ${redemptionCode}`);
-  console.log(`[SMS Simulation] Message content: "Your gift from ${regularPersonName} is ready! Use redemption code ${redemptionCode} to redeem your items."`);
+  console.log(`[SMS Simulation] Message content: "Your gift from ${senderName} is ready! Use redemption code ${redemptionCode} to redeem your items."`);
   
   // Simulate SMS sending delay
   await new Promise(resolve => setTimeout(resolve, 500));
   
   console.log(`[SMS Simulation] SMS sent successfully to ${recipientPhone}`);
   
-  // Also send SMS to regular person when gift is collected (this will be called later in the verification process)
-  console.log(`[SMS Simulation] Regular person ${regularPersonName} (${regularPersonPhone}) will be notified when gift is collected`);
+  // Also send SMS to sender when gift is collected (this will be called later in the verification process)
+  console.log(`[SMS Simulation] Sender ${senderName} (${senderPhone}) will be notified when gift is collected`);
 }
 
 function mapDbOrderToOutput(
@@ -66,7 +66,7 @@ function mapDbOrderToOutput(
 async function createGiftOrderInTransaction(
   trx: Transaction<DB>,
   userId: number,
-  { businessId, items, recipientName, recipientPhone, recipientNationalId, regularPersonName, regularPersonPhone }: z.infer<typeof schema>
+  { businessId, items, recipientName, recipientPhone, recipientNationalId, senderName, senderPhone }: z.infer<typeof schema>
 ): Promise<OutputType> {
   // 1. Generate a unique redemption code
   const redemptionCode = nanoid(10).toUpperCase();
@@ -133,8 +133,8 @@ async function createGiftOrderInTransaction(
       recipientName,
       recipientPhone,
       recipientNationalId,
-      regularPersonName,
-      regularPersonPhone,
+      senderName,
+      senderPhone,
       isRedeemed: false,
       redeemedAt: null,
     })
@@ -173,7 +173,7 @@ async function createGiftOrderInTransaction(
   // 9. Simulate SMS sending after successful order creation
   let smsStatus: 'sent' | 'failed' = 'sent';
   try {
-    await simulateSMSSending(recipientPhone, redemptionCode, regularPersonName, regularPersonPhone);
+    await simulateSMSSending(recipientPhone, redemptionCode, senderName, senderPhone);
   } catch (error) {
     console.error("Failed to send SMS:", error);
     smsStatus = 'failed';
@@ -185,9 +185,11 @@ async function createGiftOrderInTransaction(
 export async function handle(request: Request) {
   try {
     const { user } = await getServerUserSession(request);
-    if (user.role !== "user") {
+    // Allow both regular users and business users to create gift orders
+    // since this is a pure gift-ordering platform
+    if (user.role !== "user" && user.role !== "business") {
       return new Response(
-        superjson.stringify({ error: "Forbidden: Only users can create gift orders." }),
+        superjson.stringify({ error: "Forbidden: Only authenticated users can create gift orders." }),
         { status: 403, headers: { "Content-Type": "application/json" } }
       );
     }

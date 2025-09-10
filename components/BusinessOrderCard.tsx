@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import * as Collapsible from "@radix-ui/react-collapsible";
 import { Order } from "../endpoints/business/orders_GET.schema";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Spinner } from "./Spinner";
-import { Calendar, Hash, DollarSign, ShoppingBag, CheckCircle, User, Phone } from "lucide-react";
+import { Calendar, Hash, DollarSign, ShoppingBag, CheckCircle, User, Phone, ChevronDown } from "lucide-react";
 import { useVerifyOrder } from "../helpers/useVerifyOrder";
 import { toast } from "sonner";
 import styles from "./BusinessOrderCard.module.css";
@@ -46,6 +47,7 @@ export const BusinessOrderCard = ({
   onRedeemSuccess,
   onRedemptionValidated,
 }: BusinessOrderCardProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [showRedemptionInput, setShowRedemptionInput] = useState(false);
   const [redemptionCode, setRedemptionCode] = useState("");
   const verifyOrderMutation = useVerifyOrder();
@@ -113,9 +115,10 @@ export const BusinessOrderCard = ({
   }).format(order.totalAmount);
 
   return (
-    <article 
+    <Collapsible.Root 
       className={`${styles.card} ${isSelected ? styles.selected : ""} ${onSelect ? styles.clickable : ""} ${className || ""}`}
-      onClick={handleCardClick}
+      open={isOpen} 
+      onOpenChange={setIsOpen}
     >
       <header className={styles.cardHeader}>
         <div className={styles.headerInfo}>
@@ -128,112 +131,121 @@ export const BusinessOrderCard = ({
             <span>{formattedDate}</span>
           </div>
         </div>
-        <Badge variant={getStatusVariant(order.status)}>
-          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-        </Badge>
+        <div className={styles.headerActions}>
+          <Badge variant={getStatusVariant(order.status)}>
+            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+          </Badge>
+          <Collapsible.Trigger asChild>
+            <Button variant="ghost" size="icon-sm" className={styles.chevron}>
+              <ChevronDown size={16} />
+            </Button>
+          </Collapsible.Trigger>
+        </div>
       </header>
 
-      <div className={styles.cardBody}>
-        <section className={styles.collectorInfo}>
-          <h3 className={styles.sectionTitle}>
-            <User size={16} />
-            <span>Collector Information</span>
-          </h3>
-          <div className={styles.collectorDetails}>
-            <div className={styles.collectorItem}>
-              <User size={14} />
-              <span className={styles.collectorName}>
-                {order.collector.name || "Not specified"}
-              </span>
-            </div>
-            {order.collector.phone && (
+      <Collapsible.Content className={styles.collapsibleContent}>
+        <div className={styles.cardBody}>
+          <section className={styles.collectorInfo}>
+            <h3 className={styles.sectionTitle}>
+              <User size={16} />
+              <span>Collector Information</span>
+            </h3>
+            <div className={styles.collectorDetails}>
               <div className={styles.collectorItem}>
-                <Phone size={14} />
-                <span className={styles.collectorPhone}>
-                  {order.collector.phone}
+                <User size={14} />
+                <span className={styles.collectorName}>
+                  {order.collector.name || "Not specified"}
                 </span>
               </div>
-            )}
-          </div>
-        </section>
-
-        <section className={styles.itemsInfo}>
-          <h3 className={styles.sectionTitle}>
-            <ShoppingBag size={16} />
-            <span>Order Items</span>
-          </h3>
-          <ul className={styles.itemList}>
-            {order.items.map((item: Order['items'][0]) => (
-              <li key={item.id} className={styles.item}>
-                <span className={styles.itemQuantity}>{item.quantity}x</span>
-                <span className={styles.itemName}>{item.product.name}</span>
-                <span className={styles.itemPrice}>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: order.currency,
-                  }).format(item.totalPrice)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
-
-      <footer className={styles.cardFooter}>
-        <div className={styles.totalAmount}>
-          <DollarSign size={18} />
-          <span>Total: {formattedTotal}</span>
-        </div>
-        {order.status === "pending" && (
-          <div className={styles.redemptionSection}>
-            {showRedemptionInput ? (
-              <div className={styles.redemptionForm}>
-                <Input
-                  type="text"
-                  placeholder="Enter verification code"
-                  value={redemptionCode}
-                  onChange={(e) => setRedemptionCode(e.target.value)}
-                  className={styles.redemptionInput}
-                  disabled={verifyOrderMutation.isPending}
-                  onClick={(e) => e.stopPropagation()}
-                />
-                <div className={styles.redemptionButtons}>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={handleCancelRedemption}
-                    disabled={verifyOrderMutation.isPending}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={handleRedeemGift}
-                    disabled={!redemptionCode.trim() || verifyOrderMutation.isPending}
-                  >
-                    {verifyOrderMutation.isPending ? (
-                      <Spinner size="sm" />
-                    ) : (
-                      <>
-                        <CheckCircle size={14} />
-                        Verify
-                      </>
-                    )}
-                  </Button>
+              {order.collector.phone && (
+                <div className={styles.collectorItem}>
+                  <Phone size={14} />
+                  <span className={styles.collectorPhone}>
+                    {order.collector.phone}
+                  </span>
                 </div>
-              </div>
-            ) : (
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={handleRedeemGift}
-              >
-                Verify Code
-              </Button>
-            )}
+              )}
+            </div>
+          </section>
+
+          <section className={styles.itemsInfo}>
+            <h3 className={styles.sectionTitle}>
+              <ShoppingBag size={16} />
+              <span>Order Items</span>
+            </h3>
+            <ul className={styles.itemList}>
+              {order.items.map((item: Order['items'][0]) => (
+                <li key={item.id} className={styles.item}>
+                  <span className={styles.itemQuantity}>{item.quantity}x</span>
+                  <span className={styles.itemName}>{item.product.name}</span>
+                  <span className={styles.itemPrice}>
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: order.currency,
+                    }).format(item.totalPrice)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        <footer className={styles.cardFooter}>
+          <div className={styles.totalAmount}>
+            <DollarSign size={18} />
+            <span>Total: {formattedTotal}</span>
           </div>
-        )}
-      </footer>
-    </article>
+          {order.status === "pending" && (
+            <div className={styles.redemptionSection}>
+              {showRedemptionInput ? (
+                <div className={styles.redemptionForm}>
+                  <Input
+                    type="text"
+                    placeholder="Enter verification code"
+                    value={redemptionCode}
+                    onChange={(e) => setRedemptionCode(e.target.value)}
+                    className={styles.redemptionInput}
+                    disabled={verifyOrderMutation.isPending}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <div className={styles.redemptionButtons}>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={handleCancelRedemption}
+                      disabled={verifyOrderMutation.isPending}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={handleRedeemGift}
+                      disabled={!redemptionCode.trim() || verifyOrderMutation.isPending}
+                    >
+                      {verifyOrderMutation.isPending ? (
+                        <Spinner size="sm" />
+                      ) : (
+                        <>
+                          <CheckCircle size={14} />
+                          Verify
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={handleRedeemGift}
+                >
+                  Verify Code
+                </Button>
+              )}
+            </div>
+          )}
+        </footer>
+      </Collapsible.Content>
+    </Collapsible.Root>
   );
 };

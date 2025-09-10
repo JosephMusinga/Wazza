@@ -13,8 +13,8 @@ export const schema = z.object({
   recipientName: z.string().min(1, "Recipient name is required."),
   recipientPhone: z.string().min(1, "Recipient phone is required."),
   recipientNationalId: z.string().min(1, "Recipient national ID is required.").max(50, "Recipient national ID is too long."),
-  regularPersonName: z.string().min(1, "Regular person name is required."),
-  regularPersonPhone: z.string().min(1, "Regular person phone is required."),
+  senderName: z.string().min(1, "Sender name is required."),
+  senderPhone: z.string().min(1, "Sender phone is required."),
 });
 
 export type InputType = z.infer<typeof schema>;

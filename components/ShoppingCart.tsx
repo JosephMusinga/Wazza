@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useShoppingCart, CartItem } from "../helpers/useShoppingCart";
 import { Business } from "../endpoints/businesses_GET.schema";
-import { useCreateOrder } from "../helpers/useCreateOrder";
 import { UserGiftPurchase } from "./UserGiftPurchase";
 import { Button } from "./Button";
 import { Input } from "./Input";
@@ -16,10 +15,7 @@ import {
   AlertCircle,
   PackageCheck,
   X,
-  User,
-  Gift,
   ArrowLeft,
-  Copy,
 } from "lucide-react";
 import styles from "./ShoppingCart.module.css";
 
@@ -28,15 +24,11 @@ interface ShoppingCartProps {
   selectedBusiness?: Business | null;
 }
 
-type PurchaseType = "selection" | "receipt" | "self" | "gift";
+type PurchaseType = "selection" | "gift";
 
 export const ShoppingCart: React.FC<ShoppingCartProps> = ({ className, selectedBusiness }) => {
   const { items, updateQuantity, removeItem, totalItems, totalPrice, cartForBusiness } = useShoppingCart();
-  const createOrderMutation = useCreateOrder();
-
-
   const [purchaseType, setPurchaseType] = useState<PurchaseType>("selection");
-  const [pickupCode, setPickupCode] = useState<string>("");
 
   const cartItems = useMemo(() => {
     if (selectedBusiness) {
@@ -45,20 +37,6 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ className, selectedB
     return Object.values(items);
   }, [items, selectedBusiness, cartForBusiness]);
 
-  const generatePickupCode = useCallback(() => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let i = 0; i < 8; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result;
-  }, []);
-
-  const copyToClipboard = useCallback((text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      console.log("Pickup code copied to clipboard");
-    });
-  }, []);
 
   const businessGroups = useMemo(() => {
     const groups: Record<
@@ -249,7 +227,6 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ className, selectedB
             >
               <ArrowLeft size={20} />
             </Button>
-            <h3>Send as Gift</h3>
           </div>
           <UserGiftPurchase 
             preselectedBusinessId={businessGroups[0]?.businessId}
@@ -331,20 +308,13 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ className, selectedB
         </div>
 
         <div className={styles.purchaseOptions}>
-          <h4 className={styles.purchaseOptionsTitle}>Send as Gift</h4>
-          <div className={styles.purchaseOptionButtons}>
-            <Button 
-              variant="outline" 
-              onClick={() => setPurchaseType("gift")}
-              className={styles.purchaseOption}
-            >
-              <Gift size={20} />
-              <div className={styles.purchaseOptionText}>
-                <span className={styles.purchaseOptionTitle}>Send as Gift</span>
-                <span className={styles.purchaseOptionDesc}>Purchase for another recipient</span>
-              </div>
-            </Button>
-          </div>
+          <Button 
+            onClick={() => setPurchaseType("gift")}
+            className={styles.continueButton}
+            size="lg"
+          >
+            Accept & Continue
+          </Button>
         </div>
       </>
     );
@@ -354,7 +324,7 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ className, selectedB
     <div className={`${styles.container} ${className || ""}`}>
       <header className={styles.header}>
         <h2 className={styles.title}>
-          {selectedBusiness ? `${selectedBusiness.name} - Cart` : 'Shopping Cart'}
+          Confirm Details
         </h2>
         <Badge variant="outline">
           {selectedBusiness 

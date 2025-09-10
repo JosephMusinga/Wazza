@@ -11,15 +11,15 @@ import { Input } from "./Input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./Select";
 import { Skeleton } from "./Skeleton";
 import { Spinner } from "./Spinner";
-import { AlertCircle, ArrowLeft, ArrowRight, Gift, PackageCheck, Copy, ShoppingBag } from "lucide-react";
+import { AlertCircle, ArrowLeft, ArrowRight, PackageCheck, Copy, ShoppingBag } from "lucide-react";
 import styles from "./UserGiftPurchase.module.css";
 
 const recipientFormSchema = z.object({
   recipientName: z.string().min(1, "Recipient name is required."),
   recipientPhone: z.string().min(1, "Recipient phone is required."),
   recipientNationalId: z.string().min(1, "Recipient national ID is required.").max(50, "Recipient national ID is too long."),
-  regularPersonName: z.string().min(1, "Regular person name is required."),
-  regularPersonPhone: z.string().min(1, "Regular person phone is required."),
+  senderName: z.string().min(1, "Sender name is required."),
+  senderPhone: z.string().min(1, "Sender phone is required."),
 });
 
 type RecipientFormData = z.infer<typeof recipientFormSchema>;
@@ -29,9 +29,10 @@ interface UserGiftPurchaseProps {
   preselectedBusinessId?: number;
   useCartItems?: boolean;
   onComplete?: (redemptionCode: string) => void;
+  onCancel?: () => void;
 }
 
-export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, preselectedBusinessId, useCartItems = false, onComplete }) => {
+export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, preselectedBusinessId, useCartItems = false, onComplete, onCancel }) => {
   const [step, setStep] = useState(1);
   const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
 
@@ -79,7 +80,7 @@ export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, p
   const validSteps = useMemo(() => {
     const steps = [];
     if (!preselectedBusinessId) steps.push(1); // Business selection
-    steps.push(2, 3, 4); // Recipient info, summary, success
+    steps.push(2, 4); // Recipient info, success (removed summary step)
     return steps;
   }, [preselectedBusinessId]);
 
@@ -110,13 +111,14 @@ export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, p
 
   const onSubmit = (data: RecipientFormData) => {
     if (!selectedBusiness || totalCartItems === 0) return;
+    
     createGiftOrderMutation.mutate({
       businessId: selectedBusiness.id,
       items: Object.values(activeCart).map(item => ({ productId: item.product.id, quantity: item.quantity })),
       ...data,
     }, {
       onSuccess: () => {
-        setStep(4);
+        setStep(4); // Go directly to success step
       }
     });
   };
@@ -156,12 +158,11 @@ export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, p
       case 2: // Recipient Info
         return (
           <div>
-            <h3 className={styles.stepTitle}>Step 2: Recipient Information</h3>
             {totalCartItems > 0 && (
               <div className={styles.cartItemsNotice}>
                 <p className={styles.cartItemsMessage}>
                   <ShoppingBag size={16} />
-                  Gift includes {totalCartItems} item{totalCartItems !== 1 ? 's' : ''} from {selectedBusiness?.name} (${totalCartPrice.toFixed(2)})
+                  Order includes {totalCartItems} item{totalCartItems !== 1 ? 's' : ''} from {selectedBusiness?.name} (${totalCartPrice.toFixed(2)})
                 </p>
               </div>
             )}
@@ -177,46 +178,14 @@ export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, p
               </div>
               
               <div className={styles.formSection}>
-                <h4 className={styles.sectionTitle}>Regular Person Details (Who requested the gift)</h4>
-                <Controller name="regularPersonName" control={control} render={({ field }) => <Input placeholder="Regular Person's Full Name" {...field} />} />
-                {errors.regularPersonName && <p className={styles.errorText}>{errors.regularPersonName.message}</p>}
-                <Controller name="regularPersonPhone" control={control} render={({ field }) => <Input placeholder="Regular Person's Phone Number" {...field} />} />
-                {errors.regularPersonPhone && <p className={styles.errorText}>{errors.regularPersonPhone.message}</p>}
+                <h4 className={styles.sectionTitle}>Sender's Details</h4>
+                <Controller name="senderName" control={control} render={({ field }) => <Input placeholder="Sender's Full Name" {...field} />} />
+                {errors.senderName && <p className={styles.errorText}>{errors.senderName.message}</p>}
+                <Controller name="senderPhone" control={control} render={({ field }) => <Input placeholder="Sender's Phone Number" {...field} />} />
+                {errors.senderPhone && <p className={styles.errorText}>{errors.senderPhone.message}</p>}
               </div>
+              
             </form>
-          </div>
-        );
-      case 3: // Summary
-        return (
-          <div>
-            <h3 className={styles.stepTitle}>Step 3: Order Summary</h3>
-            <div className={styles.summaryGrid}>
-              <div className={styles.summarySection}>
-                <h4>Items</h4>
-                {Object.values(activeCart).map(({ product, quantity }) => (
-                  <div key={product.id} className={styles.summaryItem}>
-                    <span>{quantity} x {product.name}</span>
-                    <span>${(product.price * quantity).toFixed(2)}</span>
-                  </div>
-                ))}
-                <div className={`${styles.summaryItem} ${styles.summaryTotal}`}>
-                  <span>Total</span>
-                  <span>${totalCartPrice.toFixed(2)}</span>
-                </div>
-              </div>
-              <div className={styles.summarySection}>
-                <h4>Recipient</h4>
-                <p>Name: {control._formValues.recipientName}</p>
-                <p>Phone: {control._formValues.recipientPhone}</p>
-                <p>National ID: {control._formValues.recipientNationalId}</p>
-              </div>
-              <div className={styles.summarySection}>
-                <h4>Regular Person (Who requested the gift)</h4>
-                <p>Name: {control._formValues.regularPersonName}</p>
-                <p>Phone: {control._formValues.regularPersonPhone}</p>
-              </div>
-            </div>
-            {createGiftOrderMutation.isError && <p className={styles.errorText}><AlertCircle size={16} /> {createGiftOrderMutation.error.message}</p>}
           </div>
         );
       case 4: // Success
@@ -267,25 +236,22 @@ export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, p
 
   return (
     <div className={`${styles.container} ${className || ""}`}>
-      <header className={styles.header}>
-        <Gift size={24} />
-        <h2>Send a Gift</h2>
-      </header>
       <div className={styles.content}>
         {renderStep()}
       </div>
       {step < 4 && (
         <footer className={styles.footer}>
-          <Button variant="outline" onClick={() => setStep(getPrevValidStep(step))} disabled={step === validSteps[0]}>
+          <Button variant="outline" onClick={onCancel || (() => setStep(getPrevValidStep(step)))} disabled={step === validSteps[0] && !onCancel}>
             <ArrowLeft size={16} /> Back
           </Button>
-          {step < 3 ? (
-            <Button onClick={() => setStep(getNextValidStep(step))} disabled={(step === 3 && !isValid)}>
-              Next <ArrowRight size={16} />
-            </Button>
-          ) : (
-            <Button onClick={handleSubmit(onSubmit)} disabled={createGiftOrderMutation.isPending}>
-              {createGiftOrderMutation.isPending ? <Spinner size="sm" /> : "Confirm & Pay"}
+          {step === 2 && (
+            <Button 
+              onClick={handleSubmit(onSubmit)} 
+              disabled={createGiftOrderMutation.isPending || !isValid}
+              size="lg"
+              className={styles.acceptButton}
+            >
+              {createGiftOrderMutation.isPending ? <Spinner size="sm" /> : "Accept & Continue"}
             </Button>
           )}
         </footer>

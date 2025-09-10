@@ -90,6 +90,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const onLogin = useCallback(
     (user: User) => {
       queryClient.setQueryData(AUTH_QUERY_KEY, user);
+      // Refresh businesses data when user logs in (in case their business status changed)
+      queryClient.invalidateQueries({ queryKey: ['businesses'] });
     },
     [queryClient]
   );

@@ -225,21 +225,11 @@ export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
     if (purchaseType === "gift") {
       return (
         <div className={styles.giftPurchaseContainer}>
-          <div className={styles.giftHeader}>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setPurchaseType("selection")}
-              className={styles.backButton}
-            >
-              <ArrowLeft size={20} />
-            </Button>
-            <h3>Send as Gift</h3>
-          </div>
           <UserGiftPurchase 
             preselectedBusinessId={businessId}
             className={styles.embeddedGiftPurchase}
             onComplete={handleGiftComplete}
+            onCancel={() => setPurchaseType("selection")}
           />
         </div>
       );
@@ -306,29 +296,13 @@ export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
           </div>
 
           <div className={styles.purchaseOptions}>
-            <h4 className={styles.purchaseOptionsTitle}>How would you like to purchase?</h4>
             <div className={styles.purchaseOptionButtons}>
               <Button 
-                variant="outline" 
-                onClick={() => setPurchaseType("receipt")}
-                className={styles.purchaseOption}
-              >
-                <User size={20} />
-                <div className={styles.purchaseOptionText}>
-                  <span className={styles.purchaseOptionTitle}>Buy for Myself</span>
-                  <span className={styles.purchaseOptionDesc}>Get pickup code after checkout</span>
-                </div>
-              </Button>
-              <Button 
-                variant="outline" 
                 onClick={() => setPurchaseType("gift")}
-                className={styles.purchaseOption}
+                className={styles.continueButton}
+                size="lg"
               >
-                <Gift size={20} />
-                <div className={styles.purchaseOptionText}>
-                  <span className={styles.purchaseOptionTitle}>Send as Gift</span>
-                  <span className={styles.purchaseOptionDesc}>Purchase for another recipient</span>
-                </div>
+                Accept & Continue
               </Button>
             </div>
           </div>
@@ -449,10 +423,7 @@ export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
           </DialogTrigger>
           <DialogContent className={styles.dialogContent}>
             <DialogHeader>
-              <DialogTitle>Shopping Cart</DialogTitle>
-              <DialogDescription>
-                Review your items and proceed to checkout
-              </DialogDescription>
+              <DialogTitle>Confirm Details</DialogTitle>
             </DialogHeader>
             {renderCartContent()}
           </DialogContent>

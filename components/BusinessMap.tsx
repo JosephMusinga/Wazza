@@ -118,10 +118,13 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
   const [isLoadingLocation, setIsLoadingLocation] = useState(true);
   const [locationError, setLocationError] = useState<string | null>(null);
 
-  const { data: businesses, isFetching, isError, refetch } = useQuery({
+  const { data: businesses, isFetching, isError, refetch, isRefetching } = useQuery({
     queryKey: ['businesses'],
     queryFn: getBusinesses,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+    refetchInterval: false, // Disable automatic refetching
+    refetchOnWindowFocus: false, // Don't refetch when user returns to the tab
+    refetchOnMount: false, // Don't refetch when component mounts if data exists
   });
 
   // Filter out the excluded business (for Agent Sellers)
@@ -156,7 +159,7 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
 
       const options = {
         enableHighAccuracy: true,
-        timeout: 10000, // 10 seconds
+        timeout: 5000, // 5 seconds - reduced timeout
         maximumAge: 300000, // 5 minutes cache
       };
 
@@ -195,6 +198,14 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
     };
 
     getCurrentLocation();
+    
+    // Fallback timeout to ensure loading state doesn't get stuck
+    const fallbackTimeout = setTimeout(() => {
+      console.log('Geolocation fallback timeout - setting loading to false');
+      setIsLoadingLocation(false);
+    }, 6000); // 6 seconds fallback
+    
+    return () => clearTimeout(fallbackTimeout);
   }, []);
 
   // Calculate map center prioritizing user location
@@ -231,6 +242,7 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
   };
 
   if (isFetching || isLoadingLocation) {
+    console.log('Map is loading:', { isFetching, isLoadingLocation });
     return <MapSkeleton />;
   }
 
@@ -252,14 +264,16 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
     isError,
     filteredBusinesses: filteredBusinesses?.length || 0,
     mapCenter,
-    defaultZoom
+    defaultZoom,
+    businesses: businesses?.length || 0,
+    excludeBusinessId
   });
 
   // Default map view
   return (
     <>
       <div className={`${styles.mapContainer} ${className || ''}`}>
-        {/* Temporary debug overlay */}
+        {/* Map status overlay */}
         <div style={{
           position: 'absolute',
           top: '10px',
@@ -269,12 +283,34 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
           padding: '8px',
           borderRadius: '4px',
           zIndex: 1000,
-          fontSize: '12px'
+          fontSize: '12px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
         }}>
-          Businesses: {filteredBusinesses?.length || 0} | Center: {mapCenter[0].toFixed(4)}, {mapCenter[1].toFixed(4)}
+          <div>
+            Businesses: {filteredBusinesses?.length || 0} | Center: {mapCenter[0].toFixed(4)}, {mapCenter[1].toFixed(4)}
+          </div>
+          {(isFetching || isRefetching) && (
+            <Spinner size="sm" />
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => refetch()}
+            style={{ 
+              color: 'white', 
+              padding: '2px 6px',
+              fontSize: '10px',
+              height: 'auto'
+            }}
+            disabled={isFetching || isRefetching}
+          >
+            Refresh
+          </Button>
         </div>
         
-        <div className={styles.leafletMapWrapper}>
+        <div className={styles.leafletMapWrapper} style={{ minHeight: '400px', height: '100%' }}>
           <MapContainer
             center={mapCenter}
             zoom={defaultZoom}
@@ -282,6 +318,8 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
             zoomControl={!isMobile}
             touchZoom={true}
             className={styles.leafletMap}
+            style={{ height: '100%', width: '100%', minHeight: '400px' }}
+            whenReady={() => console.log('Map is ready!')}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -90,21 +90,9 @@ export const UserCheckout: React.FC<UserCheckoutProps> = ({ businessId, classNam
       case 'selection':
         return (
           <div className={styles.selectionContainer}>
-            <h3 className={styles.stepTitle}>How would you like to purchase?</h3>
             <div className={styles.selectionButtons}>
-              <Button variant="outline" size="lg" onClick={handleSelfPurchase} className={styles.selectionButton}>
-                <User size={24} />
-                <div className={styles.selectionText}>
-                  <span className={styles.selectionTitle}>Buy for Myself</span>
-                  <span className={styles.selectionDesc}>Get a pickup code after checkout.</span>
-                </div>
-              </Button>
-              <Button variant="outline" size="lg" onClick={() => setStep('gift_form')} className={styles.selectionButton}>
-                <Gift size={24} />
-                <div className={styles.selectionText}>
-                  <span className={styles.selectionTitle}>Send as a Gift</span>
-                  <span className={styles.selectionDesc}>Enter recipient details to send a gift.</span>
-                </div>
+              <Button size="lg" onClick={() => setStep('gift_form')} className={styles.continueButton}>
+                Accept & Continue
               </Button>
             </div>
           </div>

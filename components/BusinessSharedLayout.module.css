@@ -1,0 +1,126 @@
+.layout {
+  height: 100vh; /* Use full viewport height */
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  overflow: hidden; /* Prevent scrollbars */
+}
+
+.header {
+  background: linear-gradient(135deg, var(--card) 0%, color-mix(in srgb, var(--primary) 5%, var(--card)) 100%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.compactHeader {
+  padding: var(--spacing-2) 0;
+}
+
+.compactHeader .headerContent {
+  padding: var(--spacing-2) var(--spacing-6);
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4) var(--spacing-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.zapIcon {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.backButton {
+  color: var(--foreground);
+  flex-shrink: 0;
+}
+
+.backButton:hover {
+  background-color: var(--muted);
+}
+
+.brandName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.userName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-top: var(--spacing-1);
+}
+
+.userAddress {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin-top: var(--spacing-1);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.authControls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.profileAvatar {
+  width: 24px;
+  height: 24px;
+}
+
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .headerContent {
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .compactHeader .headerContent {
+    padding: var(--spacing-2) var(--spacing-4);
+  }
+
+  .brandName {
+    font-size: 1.25rem;
+  }
+
+  .userName {
+    font-size: 1rem;
+  }
+
+  .userAddress {
+    font-size: 0.8rem;
+  }
+
+
+  .authControls {
+    display: flex;
+  }
+}

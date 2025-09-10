@@ -6,6 +6,15 @@
   margin: 0 auto;
   padding: var(--spacing-8);
   animation: fadeIn 0.5s ease-out;
+  overflow: hidden; /* Prevent scrollbars */
+}
+
+.businessLayout {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Use full viewport height */
+  overflow: hidden; /* Prevent scrollbars */
 }
 
 .header {
@@ -141,6 +150,14 @@
   margin-top: 0;
 }
 
+.businessLayout .mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-4);
+  min-height: 0;
+}
+
 .sectionTitle {
   font-family: var(--font-family-heading);
   font-size: 1.5rem;
@@ -157,6 +174,10 @@
   min-height: 0;
 }
 
+.businessLayout .tabs {
+  height: 100%;
+}
+
 .tabsList {
   flex-shrink: 0;
   margin-bottom: var(--spacing-2);
@@ -168,6 +189,10 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
+}
+
+.businessLayout .tabContent {
+  height: 100%;
 }
 
 .sectionHeader {
@@ -198,6 +223,12 @@
     height: 100vh;
     padding: var(--spacing-3);
     max-width: 100%;
+    overflow: hidden; /* Prevent scrollbars on mobile */
+  }
+  
+  .businessLayout {
+    height: 100vh;
+    overflow: hidden; /* Prevent scrollbars on mobile */
   }
 
   .header {
@@ -277,6 +308,12 @@
   .dashboard {
     height: 100vh;
     padding: var(--spacing-2);
+    overflow: hidden; /* Prevent scrollbars on small mobile */
+  }
+  
+  .businessLayout {
+    height: 100vh;
+    overflow: hidden; /* Prevent scrollbars on small mobile */
   }
 
   .mobileHeader {

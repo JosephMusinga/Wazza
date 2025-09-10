@@ -135,6 +135,131 @@
   margin: 0;
 }
 
+.shopContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--background);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.shopHeader {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: var(--spacing-4) var(--spacing-6);
+}
+
+.shopHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.shopIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.shopTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-1) 0;
+}
+
+.shopSubtitle {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.shopContent {
+  flex: 1;
+  min-height: 500px;
+  position: relative;
+}
+
+.shopWelcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--spacing-8);
+}
+
+.shopWelcomeContent {
+  text-align: center;
+  max-width: 500px;
+  padding: var(--spacing-8);
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.welcomeIcon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--primary);
+  margin-bottom: var(--spacing-4);
+}
+
+.welcomeTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: var(--spacing-3);
+}
+
+.welcomeDescription {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  margin-bottom: var(--spacing-6);
+}
+
+.shopButton {
+  margin-bottom: var(--spacing-4);
+  gap: var(--spacing-2);
+}
+
+.shopNote {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  font-style: italic;
+  margin: 0;
+}
+
+.backButton {
+  padding: var(--spacing-1);
+  margin-right: var(--spacing-1);
+}
+
+.cartButton {
+  position: relative;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  font-size: 0.75rem;
+  padding: 0 4px;
+  border-radius: 9px;
+}
+
+.cartDialog {
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -218,6 +343,65 @@
     line-height: 1.5;
     max-width: 100%;
   }
+
+  .shopHeader {
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .shopHeaderContent {
+    gap: var(--spacing-2);
+  }
+
+  .shopIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .shopTitle {
+    font-size: 1rem;
+  }
+
+  .shopSubtitle {
+    font-size: 0.8rem;
+  }
+
+  .shopContent {
+    min-height: 400px;
+  }
+
+  .shopWelcome {
+    padding: var(--spacing-4);
+  }
+
+  .shopWelcomeContent {
+    padding: var(--spacing-6);
+    max-width: 100%;
+  }
+
+  .welcomeIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: var(--spacing-3);
+  }
+
+  .welcomeTitle {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-2);
+  }
+
+  .welcomeDescription {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: var(--spacing-4);
+  }
+
+  .shopButton {
+    margin-bottom: var(--spacing-3);
+  }
+
+  .shopNote {
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -259,5 +443,55 @@
 
   .placeholderTitle {
     font-size: 1.125rem;
+  }
+
+  .shopHeader {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+
+  .shopTitle {
+    font-size: 0.9rem;
+  }
+
+  .shopSubtitle {
+    font-size: 0.75rem;
+  }
+
+  .shopContent {
+    min-height: 350px;
+  }
+
+  .shopWelcome {
+    padding: var(--spacing-3);
+  }
+
+  .shopWelcomeContent {
+    padding: var(--spacing-4);
+  }
+
+  .welcomeIcon {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: var(--spacing-2);
+  }
+
+  .welcomeTitle {
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-2);
+  }
+
+  .welcomeDescription {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: var(--spacing-3);
+  }
+
+  .shopButton {
+    margin-bottom: var(--spacing-2);
+    font-size: 0.875rem;
+  }
+
+  .shopNote {
+    font-size: 0.75rem;
   }
 }

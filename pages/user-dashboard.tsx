@@ -25,6 +25,7 @@ import { BusinessMap } from "../components/BusinessMap";
 import { UserOrderTracking } from "../components/UserOrderTracking";
 import { ShoppingCart as ShoppingCartComponent } from "../components/ShoppingCart";
 import { useShoppingCart } from "../helpers/useShoppingCart";
+import { BusinessSharedLayout } from "../components/BusinessSharedLayout";
 import { Business } from "../endpoints/businesses_GET.schema";
 import { 
   DropdownMenu, 
@@ -101,154 +102,161 @@ const UserDashboardPage: React.FC = () => {
       .join("")
       .substring(0, 2) || "U";
 
-  return (
+  const content = (
     <>
       <Helmet>
         <title>User Dashboard - Floot</title>
         <meta name="description" content="Your personal dashboard." />
       </Helmet>
-      <div className={styles.dashboard}>
-        <header className={styles.header}>
-          <div className={styles.userInfo}>
-            {selectedBusiness ? (
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={handleBackToMap}
-                className={styles.backButton}
-              >
-                <ArrowLeft className={styles.zapIcon} />
-              </Button>
-            ) : (
-              <Zap className={styles.zapIcon} />
-            )}
-            <div>
-              <h1 className={styles.brandName}>Wazza</h1>
-              <div className={styles.userName}>
-                {user.displayName}
+      <div className={`${styles.dashboard} ${user.role === "business" ? styles.businessLayout : ""}`}>
+        {/* Only show header for non-business users */}
+        {user.role !== "business" && (
+          <header className={styles.header}>
+            <div className={styles.userInfo}>
+              {selectedBusiness ? (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={handleBackToMap}
+                  className={styles.backButton}
+                >
+                  <ArrowLeft className={styles.zapIcon} />
+                </Button>
+              ) : (
+                <Zap className={styles.zapIcon} />
+              )}
+              <div>
+                <h1 className={styles.brandName}>Wazza</h1>
+                <div className={styles.userName}>
+                  {user.displayName}
+                </div>
               </div>
             </div>
-          </div>
-          <div className={styles.headerActions}>
-            {selectedBusiness && (
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" size="icon" className={styles.cartButton}>
-                    <ShoppingCart size={20} />
-                    {selectedBusinessTotalItems > 0 && (
-                      <Badge className={styles.cartBadge}>
-                        {selectedBusinessTotalItems > 9 ? '9+' : selectedBusinessTotalItems}
-                      </Badge>
-                    )}
+            <div className={styles.headerActions}>
+              {selectedBusiness && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className={styles.cartButton}>
+                      <ShoppingCart size={20} />
+                      {selectedBusinessTotalItems > 0 && (
+                        <Badge className={styles.cartBadge}>
+                          {selectedBusinessTotalItems > 9 ? '9+' : selectedBusinessTotalItems}
+                        </Badge>
+                      )}
+                    </Button>
+                  </DialogTrigger>
+                <DialogContent className={styles.cartDialog}>
+                  <ShoppingCartComponent selectedBusiness={selectedBusiness} />
+                </DialogContent>
+                </Dialog>
+              )}
+              <NotificationBell />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu size={20} />
                   </Button>
-                </DialogTrigger>
-              <DialogContent className={styles.cartDialog}>
-                <ShoppingCartComponent selectedBusiness={selectedBusiness} />
-              </DialogContent>
-              </Dialog>
-            )}
-            <NotificationBell />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu size={20} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={handleProfile}>
-                  <Avatar className={styles.profileAvatar}>
-                    <AvatarImage src={user.avatarUrl ?? undefined} />
-                    <AvatarFallback>{fallback}</AvatarFallback>
-                  </Avatar>
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSettings}>
-                  <Settings size={16} />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut size={16} />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </header>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleProfile}>
+                    <Avatar className={styles.profileAvatar}>
+                      <AvatarImage src={user.avatarUrl ?? undefined} />
+                      <AvatarFallback>{fallback}</AvatarFallback>
+                    </Avatar>
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleSettings}>
+                    <Settings size={16} />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut size={16} />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </header>
+        )}
 
-        <header className={styles.mobileHeader}>
-          <div className={styles.mobileUserInfo}>
-            {selectedBusiness ? (
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={handleBackToMap}
-                className={styles.backButton}
-              >
-                <ArrowLeft className={styles.zapIcon} />
-              </Button>
-            ) : (
-              <Zap className={styles.zapIcon} />
-            )}
-            <div>
-              <div className={styles.brandName}>Wazza</div>
-              <div className={styles.mobileUserName}>
-                {user.displayName}
+        {/* Only show mobile header for non-business users */}
+        {user.role !== "business" && (
+          <header className={styles.mobileHeader}>
+            <div className={styles.mobileUserInfo}>
+              {selectedBusiness ? (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={handleBackToMap}
+                  className={styles.backButton}
+                >
+                  <ArrowLeft className={styles.zapIcon} />
+                </Button>
+              ) : (
+                <Zap className={styles.zapIcon} />
+              )}
+              <div>
+                <div className={styles.brandName}>Wazza</div>
+                <div className={styles.mobileUserName}>
+                  {user.displayName}
+                </div>
               </div>
             </div>
-          </div>
-          <div className={styles.mobileHeaderActions}>
-            {selectedBusiness && (
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" size="icon" className={styles.cartButton}>
-                    <ShoppingCart size={20} />
-                    {selectedBusinessTotalItems > 0 && (
-                      <Badge className={styles.cartBadge}>
-                        {selectedBusinessTotalItems > 9 ? '9+' : selectedBusinessTotalItems}
-                      </Badge>
-                    )}
+            <div className={styles.mobileHeaderActions}>
+              {selectedBusiness && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className={styles.cartButton}>
+                      <ShoppingCart size={20} />
+                      {selectedBusinessTotalItems > 0 && (
+                        <Badge className={styles.cartBadge}>
+                          {selectedBusinessTotalItems > 9 ? '9+' : selectedBusinessTotalItems}
+                        </Badge>
+                      )}
+                    </Button>
+                  </DialogTrigger>
+                <DialogContent className={styles.cartDialog}>
+                  <ShoppingCartComponent selectedBusiness={selectedBusiness} />
+                </DialogContent>
+                </Dialog>
+              )}
+              <NotificationBell />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu size={20} />
                   </Button>
-                </DialogTrigger>
-              <DialogContent className={styles.cartDialog}>
-                <ShoppingCartComponent selectedBusiness={selectedBusiness} />
-              </DialogContent>
-              </Dialog>
-            )}
-            <NotificationBell />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu size={20} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={handleProfile}>
-                  <Avatar className={styles.profileAvatar}>
-                    <AvatarImage src={user.avatarUrl ?? undefined} />
-                    <AvatarFallback>{fallback}</AvatarFallback>
-                  </Avatar>
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSettings}>
-                  <Settings size={16} />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut size={16} />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </header>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleProfile}>
+                    <Avatar className={styles.profileAvatar}>
+                      <AvatarImage src={user.avatarUrl ?? undefined} />
+                      <AvatarFallback>{fallback}</AvatarFallback>
+                    </Avatar>
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleSettings}>
+                    <Settings size={16} />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut size={16} />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </header>
+        )}
 
         <Separator className={styles.separator} />
 
         <main className={styles.mainContent}>
           {selectedBusiness ? (
             <BusinessMap 
+              className={user.role === "business" ? styles.businessLayout : undefined}
               selectedBusiness={selectedBusiness}
               onBusinessSelect={handleBusinessSelect}
               onBackToMap={handleBackToMap}
@@ -269,6 +277,7 @@ const UserDashboardPage: React.FC = () => {
               
               <TabsContent value="businesses" className={styles.tabContent}>
                 <BusinessMap 
+                  className={user.role === "business" ? styles.businessLayout : undefined}
                   selectedBusiness={selectedBusiness}
                   onBusinessSelect={handleBusinessSelect}
                   onBackToMap={handleBackToMap}
@@ -285,6 +294,13 @@ const UserDashboardPage: React.FC = () => {
       </div>
     </>
   );
+
+  // Use BusinessSharedLayout for business users, regular layout for others
+  if (user.role === "business") {
+    return <BusinessSharedLayout>{content}</BusinessSharedLayout>;
+  }
+
+  return content;
 };
 
 export default UserDashboardPage;

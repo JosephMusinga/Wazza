@@ -3,8 +3,7 @@ import { Helmet } from "react-helmet";
 import { useAuth } from "../helpers/useAuth";
 import { useBusinessProfile } from "../helpers/useBusinessProfile";
 import { useNavigate } from "react-router-dom";
-import { Business } from "../endpoints/businesses_GET.schema";
-import { LogOut, BarChart2, Menu, User, Zap, Settings, ShoppingBag } from "lucide-react";
+import { LogOut, BarChart2, Menu, User, Zap, Settings, ShoppingBag, ShoppingCart } from "lucide-react";
 import { Button } from "../components/Button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/Avatar";
 import { Badge } from "../components/Badge";
@@ -14,7 +13,6 @@ import { Skeleton } from "../components/Skeleton";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/Tabs";
 import { BusinessOrderManagement } from "../components/BusinessOrderManagement";
 import { BusinessProductManagement } from "../components/BusinessProductManagement";
-import { BusinessMap } from "../components/BusinessMap";
 import { 
   DropdownMenu, 
   DropdownMenuTrigger, 
@@ -29,7 +27,15 @@ const BusinessDashboardPage: React.FC = () => {
   const { authState, logout } = useAuth();
   const navigate = useNavigate();
   const { data: businessProfileData, isFetching: isLoadingProfile, error: profileError } = useBusinessProfile();
-  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
+  const [activeTab, setActiveTab] = useState("orders");
+
+  // Debug logging
+  console.log('Business Dashboard Debug:', {
+    user: authState.type === 'authenticated' ? authState.user : null,
+    businessProfileData,
+    isLoadingProfile,
+    profileError
+  });
 
   const handleLogout = async () => {
     await logout();
@@ -44,13 +50,6 @@ const BusinessDashboardPage: React.FC = () => {
     console.log("Settings clicked");
   };
 
-  const handleBusinessSelect = (business: Business) => {
-    setSelectedBusiness(business);
-  };
-
-  const handleBackToMap = () => {
-    setSelectedBusiness(null);
-  };
 
 
 
@@ -94,11 +93,11 @@ const BusinessDashboardPage: React.FC = () => {
                 {isLoadingProfile ? (
                   <Skeleton style={{ width: '150px', height: '1.2rem' }} />
                 ) : profileError ? (
-                  user.displayName
+                  'Business Profile Error'
                 ) : businessProfileData && 'businessProfile' in businessProfileData ? (
                   businessProfileData.businessProfile.businessName
                 ) : (
-                  user.displayName
+                  'Loading Business...'
                 )}
               </div>
               {isLoadingProfile ? (
@@ -148,11 +147,11 @@ const BusinessDashboardPage: React.FC = () => {
                 {isLoadingProfile ? (
                   <Skeleton style={{ width: '120px', height: '1rem' }} />
                 ) : profileError ? (
-                  user.displayName
+                  'Business Profile Error'
                 ) : businessProfileData && 'businessProfile' in businessProfileData ? (
                   businessProfileData.businessProfile.businessName
                 ) : (
-                  user.displayName
+                  'Loading Business...'
                 )}
               </div>
             </div>
@@ -189,7 +188,7 @@ const BusinessDashboardPage: React.FC = () => {
         <Separator className={styles.separator} />
 
         <main className={styles.mainContent}>
-          <Tabs defaultValue="orders" className={styles.tabsContainer}>
+          <Tabs defaultValue="orders" value={activeTab} onValueChange={setActiveTab} className={styles.tabsContainer}>
             <TabsList className={styles.tabsList}>
               <TabsTrigger value="orders">Orders</TabsTrigger>
               <TabsTrigger value="products">Products</TabsTrigger>
@@ -209,19 +208,42 @@ const BusinessDashboardPage: React.FC = () => {
             </TabsContent>
             
             <TabsContent value="shop" className={styles.tabContent}>
-              <div className={styles.placeholderContent}>
-                <ShoppingBag className={styles.placeholderIcon} />
-                <h3 className={styles.placeholderTitle}>Shop as Agent Buyer</h3>
-                <p className={styles.placeholderDescription}>
-                  Access the same shopping interface that Agent Buyers use to shop on behalf of regular people.
-                  Browse businesses, select products, and send gifts.
-                </p>
-                <Button 
-                  onClick={() => navigate('/user-dashboard')}
-                >
-                  <ShoppingBag size={16} />
-                  Go to Shopping Interface
-                </Button>
+              <div className={styles.shopContainer}>
+                <div className={styles.shopHeader}>
+                  <div className={styles.shopHeaderContent}>
+                    <ShoppingBag className={styles.shopIcon} />
+                    <div>
+                      <h3 className={styles.shopTitle}>Shop as Agent Buyer</h3>
+                      <p className={styles.shopSubtitle}>
+                        Browse other businesses and shop on behalf of regular people
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.shopContent}>
+                  <div className={styles.shopWelcome}>
+                    <div className={styles.shopWelcomeContent}>
+                      <ShoppingBag className={styles.welcomeIcon} />
+                      <h4 className={styles.welcomeTitle}>Ready to Shop for Others?</h4>
+                      <p className={styles.welcomeDescription}>
+                        As an Agent Seller, you can also act as an Agent Buyer to shop from other businesses 
+                        on behalf of regular people. Access the full shopping interface with the map and 
+                        all available businesses.
+                      </p>
+                      <Button 
+                        onClick={() => navigate('/user-dashboard')}
+                        className={styles.shopButton}
+                        size="lg"
+                      >
+                        <ShoppingBag size={20} />
+                        Open Shopping Interface
+                      </Button>
+                      <p className={styles.shopNote}>
+                        Your own business will be automatically excluded from the shopping map
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </TabsContent>
             

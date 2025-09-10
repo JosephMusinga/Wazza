@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ArrowLeft, ShoppingCart, AlertCircle, MapPin } from "lucide-react";
+import { AlertCircle, MapPin } from "lucide-react";
+import superjson from "superjson";
+import { useAuth } from "../helpers/useAuth";
 import { Button } from "../components/Button";
-import { NotificationBell } from "../components/NotificationBell";
 import { UserProductBrowsing } from "../components/UserProductBrowsing";
 import { Spinner } from "../components/Spinner";
 import { 
@@ -17,6 +18,7 @@ import styles from "./business-products.module.css";
 const BusinessProductsPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { authState } = useAuth();
   const [businessInfoOpen, setBusinessInfoOpen] = useState(false);
   const [business, setBusiness] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,18 +39,27 @@ const BusinessProductsPage: React.FC = () => {
         setIsLoading(true);
         setError(null);
         
-        // For now, use mock data to test the page
-        const mockBusiness = {
-          id: parseInt(businessId),
-          name: businessId === '3' ? 'Fashion Pokice' : 'Flava Restaurant',
-          businessType: businessId === '3' ? 'Clothing' : 'Restaurant',
-          address: businessId === '3' ? 'Cardif Avenue, Milton Park, Harare, Zimbabwe' : 'Msasa Park, Harare, Zimbabwe',
-          phone: businessId === '3' ? '463685' : '44655566M',
-          website: null,
-          description: businessId === '3' ? 'Fashion Pokice - Clothing' : 'Flava Restaurant - Restaurant'
-        };
+        // Fetch real business data from the API
+        const response = await fetch('/_api/businesses');
+        if (!response.ok) {
+          throw new Error('Failed to fetch businesses');
+        }
         
-        setBusiness(mockBusiness);
+        const responseText = await response.text();
+        const businesses = superjson.parse(responseText);
+        
+        // Ensure businesses is an array
+        if (!Array.isArray(businesses)) {
+          throw new Error('Invalid response format from businesses API');
+        }
+        
+        const foundBusiness = businesses.find((b: any) => b.id === parseInt(businessId));
+        
+        if (!foundBusiness) {
+          throw new Error('Business not found');
+        }
+        
+        setBusiness(foundBusiness);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -59,9 +70,6 @@ const BusinessProductsPage: React.FC = () => {
     fetchBusinessData();
   }, [businessId]);
 
-  const handleBackToMap = () => {
-    navigate("/dashboard"); // Navigate back to the main dashboard with map
-  };
 
   // Show loading state
   if (isLoading) {
@@ -82,10 +90,6 @@ const BusinessProductsPage: React.FC = () => {
         <div className={styles.errorContainer}>
           <h2>Error Loading Business</h2>
           <p>{error || 'Business not found'}</p>
-          <Button onClick={handleBackToMap}>
-            <ArrowLeft size={16} />
-            Back to Map
-          </Button>
         </div>
       </div>
     );
@@ -99,44 +103,21 @@ const BusinessProductsPage: React.FC = () => {
       </Helmet>
       
       <div className={styles.container}>
-        {/* Header with Back Arrow, Business Name + Info Icon, Cart, and Notifications */}
-        <header className={styles.header}>
-          <div className={styles.headerLeft}>
+        {/* Business Title */}
+        <div className={styles.businessHeader}>
+          <div className={styles.businessTitle}>
+            <h1 className={styles.businessName}>{business.name}</h1>
             <Button
               variant="ghost"
               size="icon"
-              onClick={handleBackToMap}
-              className={styles.backButton}
-              aria-label="Back to Map"
+              className={styles.infoButton}
+              onClick={() => setBusinessInfoOpen(true)}
+              aria-label="Business Information"
             >
-              <ArrowLeft size={20} />
-            </Button>
-            <div className={styles.businessTitle}>
-              <h1 className={styles.businessName}>{business.name}</h1>
-              <Button
-                variant="ghost"
-                size="icon"
-                className={styles.infoButton}
-                onClick={() => setBusinessInfoOpen(true)}
-                aria-label="Business Information"
-              >
-                <AlertCircle size={18} />
-              </Button>
-            </div>
-          </div>
-          
-          <div className={styles.headerRight}>
-            <NotificationBell />
-            <Button
-              variant="ghost"
-              size="icon"
-              className={styles.cartButton}
-              aria-label="Shopping Cart"
-            >
-              <ShoppingCart size={20} />
+              <AlertCircle size={18} />
             </Button>
           </div>
-        </header>
+        </div>
 
         {/* Business Products Content */}
         <main className={styles.mainContent}>

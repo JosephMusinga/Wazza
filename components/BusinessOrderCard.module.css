@@ -37,6 +37,7 @@
   border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
   gap: var(--spacing-3);
+  cursor: pointer;
 }
 
 .selected .cardHeader {
@@ -56,6 +57,42 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.chevron {
+  transition: transform var(--animation-duration-normal) ease;
+}
+
+.card[data-state='open'] .chevron {
+  transform: rotate(180deg);
+}
+
+.collapsibleContent {
+  overflow: hidden;
+}
+
+.collapsibleContent[data-state='open'] {
+  animation: slideDown var(--animation-duration-normal) ease-out;
+}
+
+.collapsibleContent[data-state='closed'] {
+  animation: slideUp var(--animation-duration-normal) ease-out;
+}
+
+@keyframes slideDown {
+  from { height: 0; }
+  to { height: var(--radix-collapsible-content-height); }
+}
+
+@keyframes slideUp {
+  from { height: var(--radix-collapsible-content-height); }
+  to { height: 0; }
 }
 
 .cardBody {
