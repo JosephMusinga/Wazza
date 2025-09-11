@@ -83,6 +83,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     await postLogout();
     // Invalidate the query to ensure proper state
     queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
+    // Clear business profile cache to prevent data leakage between users
+    queryClient.removeQueries({ queryKey: ['business', 'profile'] });
   }, [queryClient]);
 
   // This should only be used for login. For user profile changes, create separate endpoints and react query hooks

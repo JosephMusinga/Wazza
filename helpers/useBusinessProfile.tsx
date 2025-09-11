@@ -8,7 +8,9 @@ export const useBusinessProfile = () => {
   const { authState } = useAuth();
 
   return useQuery({
-    queryKey: BUSINESS_PROFILE_QUERY_KEY,
+    queryKey: authState.type === 'authenticated' && authState.user.role === 'business' 
+      ? [...BUSINESS_PROFILE_QUERY_KEY, authState.user.id] 
+      : BUSINESS_PROFILE_QUERY_KEY,
     queryFn: getBusinessProfile,
     // Only enable the query if the user is authenticated and is a business owner.
     enabled: authState.type === 'authenticated' && authState.user.role === 'business',
