@@ -42,6 +42,7 @@ const OrderSchema = z.object({
   items: z.array(OrderItemSchema),
   isGift: z.boolean(),
   collector: CollectorSchema,
+  buyerDisplayName: z.string().nullable(),
 });
 
 export type Order = z.infer<typeof OrderSchema>;

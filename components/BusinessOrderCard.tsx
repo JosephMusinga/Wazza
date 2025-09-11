@@ -130,6 +130,12 @@ export const BusinessOrderCard = ({
             <Calendar size={14} />
             <span>{formattedDate}</span>
           </div>
+          {order.buyerDisplayName && (
+            <div className={styles.infoItem}>
+              <User size={14} />
+              <span>Placed by {order.buyerDisplayName}</span>
+            </div>
+          )}
         </div>
         <div className={styles.headerActions}>
           <Badge variant={getStatusVariant(order.status)}>

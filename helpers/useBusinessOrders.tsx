@@ -8,13 +8,18 @@ import {
   postBusinessOrderStatus,
   InputType as UpdateStatusInput,
 } from "../endpoints/business/orders/status_POST.schema";
+import { useAuth } from "./useAuth";
 import { toast } from "sonner";
 
 export const BUSINESS_ORDERS_QUERY_KEY = "businessOrders" as const;
 
 export const useBusinessOrders = (params: GetOrdersInput) => {
+  const { authState } = useAuth();
+  
   return useQuery({
-    queryKey: [BUSINESS_ORDERS_QUERY_KEY, params],
+    queryKey: authState.type === 'authenticated' && authState.user.role === 'business' 
+      ? [BUSINESS_ORDERS_QUERY_KEY, authState.user.id, params]
+      : [BUSINESS_ORDERS_QUERY_KEY, params],
     queryFn: () => getBusinessOrders(params),
     placeholderData: (previousData) => previousData,
     retry: 1,

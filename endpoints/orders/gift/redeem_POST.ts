@@ -45,8 +45,8 @@ export async function handle(request: Request): Promise<Response> {
         "giftOrderMetadata.recipientName",
         "giftOrderMetadata.recipientPhone",
         "giftOrderMetadata.recipientNationalId",
-        "giftOrderMetadata.regularPersonName",
-        "giftOrderMetadata.regularPersonPhone",
+        "giftOrderMetadata.senderName",
+        "giftOrderMetadata.senderPhone",
         "giftOrderMetadata.isRedeemed",
         sql<string>`
           COALESCE(
@@ -128,17 +128,17 @@ export async function handle(request: Request): Promise<Response> {
         .execute();
     });
 
-    // Send SMS notification to regular person that their gift has been collected
+    // Send SMS notification to sender that their gift has been collected
     try {
-      console.log(`[SMS Simulation] Sending notification to regular person ${order.regularPersonName} (${order.regularPersonPhone})`);
+      console.log(`[SMS Simulation] Sending notification to sender ${order.senderName} (${order.senderPhone})`);
       console.log(`[SMS Simulation] Message content: "Your gift for ${order.recipientName} has been collected successfully!"`);
       
       // Simulate SMS sending delay
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      console.log(`[SMS Simulation] SMS sent successfully to regular person ${order.regularPersonPhone}`);
+      console.log(`[SMS Simulation] SMS sent successfully to sender ${order.senderPhone}`);
     } catch (error) {
-      console.error("Failed to send SMS to regular person:", error);
+      console.error("Failed to send SMS to sender:", error);
     }
 
     // Parse and process order items

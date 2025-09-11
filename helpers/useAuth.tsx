@@ -85,6 +85,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
     // Clear business profile cache to prevent data leakage between users
     queryClient.removeQueries({ queryKey: ['business', 'profile'] });
+    // Clear business orders cache to prevent data leakage between users
+    queryClient.removeQueries({ queryKey: ['businessOrders'] });
   }, [queryClient]);
 
   // This should only be used for login. For user profile changes, create separate endpoints and react query hooks

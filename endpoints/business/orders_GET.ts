@@ -49,9 +49,39 @@ export async function handle(request: Request): Promise<Response> {
       .where("ownerId", "=", user.id)
       .executeTakeFirst();
 
+    // Security logging for audit trail
+    console.log(`[SECURITY] Business Orders Request - User: ${user.id} (${user.email}) accessing business: ${business?.id}`);
+
     if (!business) {
+      console.error('🚨 SECURITY ALERT: User attempted to access business orders without owning a business', {
+        userId: user.id,
+        userEmail: user.email,
+        timestamp: new Date().toISOString()
+      });
       return new Response(
         superjson.stringify({ error: "Forbidden: No business associated with this user." }),
+        { status: 403 }
+      );
+    }
+
+    // CRITICAL SECURITY CHECK: Double-verify business ownership
+    const ownershipVerification = await db
+      .selectFrom("businesses")
+      .select("id")
+      .where("id", "=", business.id)
+      .where("ownerId", "=", user.id)
+      .where("status", "=", "active")
+      .executeTakeFirst();
+
+    if (!ownershipVerification) {
+      console.error('🚨 CRITICAL SECURITY BREACH: User attempted to access orders for business they do not own!', {
+        userId: user.id,
+        userEmail: user.email,
+        attemptedBusinessId: business.id,
+        timestamp: new Date().toISOString()
+      });
+      return new Response(
+        superjson.stringify({ error: "Forbidden: You do not have access to this business data." }),
         { status: 403 }
       );
     }
@@ -141,6 +171,9 @@ export async function handle(request: Request): Promise<Response> {
       .offset(offset)
       .execute() as Array<FilteredOrdersRow & { items: OrderItemData[] }>;
 
+    // Security validation - log order access for audit
+    console.log(`[SECURITY] Orders Retrieved - User: ${user.id}, Business: ${business.id}, Orders: [${result.map(o => o.id).join(', ')}]`);
+
     if (result.length === 0) {
       const response: OutputType = { orders: [], total: 0, page, limit };
       return new Response(superjson.stringify(response), {
@@ -163,11 +196,38 @@ export async function handle(request: Request): Promise<Response> {
         totalPrice: Number(item.totalPrice),
       })) : [],
       isGift: order.giftOrderId !== null,
+      buyerDisplayName: order.buyerDisplayName,
       collector: {
         name: order.giftOrderId !== null ? order.recipientName : order.buyerDisplayName,
         phone: order.giftOrderId !== null ? order.recipientPhone : null,
       },
     }));
+
+    // CRITICAL SECURITY CHECK: Verify all orders belong to the correct business
+    // This is a double-check to ensure no data leakage between businesses
+    const businessIdValidation = await db
+      .selectFrom("orders")
+      .select("id")
+      .where("businessId", "=", business.id)
+      .where("id", "in", orders.map(o => o.id))
+      .execute();
+
+    const validOrderIds = new Set(businessIdValidation.map(o => o.id));
+    const invalidOrders = orders.filter(order => !validOrderIds.has(order.id));
+
+    if (invalidOrders.length > 0) {
+      console.error('🚨 CRITICAL SECURITY BREACH: Orders found that do not belong to the correct business!', {
+        userId: user.id,
+        businessId: business.id,
+        invalidOrderIds: invalidOrders.map(o => o.id),
+        timestamp: new Date().toISOString()
+      });
+      
+      // Return empty result to prevent data leakage
+      return new Response(superjson.stringify({ 
+        error: "Security validation failed. Access denied." 
+      }), { status: 403 });
+    }
 
     const response: OutputType = { orders, total, page, limit };
     return new Response(superjson.stringify(response), {
