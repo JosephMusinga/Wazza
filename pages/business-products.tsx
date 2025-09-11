@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AlertCircle, MapPin } from "lucide-react";
+import { Info, MapPin } from "lucide-react";
 import superjson from "superjson";
 import { useAuth } from "../helpers/useAuth";
 import { Button } from "../components/Button";
@@ -114,7 +114,7 @@ const BusinessProductsPage: React.FC = () => {
               onClick={() => setBusinessInfoOpen(true)}
               aria-label="Business Information"
             >
-              <AlertCircle size={18} />
+              <Info size={18} />
             </Button>
           </div>
         </div>
@@ -146,9 +146,6 @@ const BusinessProductsPage: React.FC = () => {
                   <MapPin size={16} />
                   {business.address}
                 </p>
-                {business.description && (
-                  <p className={styles.businessInfoDescription}>{business.description}</p>
-                )}
               </div>
               
               <div className={styles.businessContactSection}>

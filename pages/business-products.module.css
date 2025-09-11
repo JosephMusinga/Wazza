@@ -42,7 +42,7 @@
 }
 
 .infoButton {
-  color: var(--muted-foreground);
+  color: #3b82f6; /* Blue color */
   transition: color var(--animation-duration-fast) ease;
 }
 

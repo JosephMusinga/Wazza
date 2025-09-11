@@ -190,11 +190,15 @@ export const UserGiftPurchase: React.FC<UserGiftPurchaseProps> = ({ className, p
         );
       case 4: // Success
         const order = createGiftOrderMutation.data;
+        const recipientPhone = order?.recipientPhone || 'recipient';
+        const businessName = selectedBusiness?.name || 'the business';
+        const businessAddress = selectedBusiness?.address || 'business location';
+        
         return (
           <div className={styles.successState}>
             <PackageCheck size={64} className={styles.successIcon} />
-            <h3 className={styles.successTitle}>Gift Order Placed!</h3>
-            <p className={styles.successMessage}>Share this redemption code with the recipient.</p>
+            <h3 className={styles.successTitle}>Order ready for collection at {businessName} and {businessAddress}</h3>
+            <p className={styles.successMessage}>The code was sent to {recipientPhone}</p>
             <div className={styles.orderDetails}>
               <div className={styles.orderNumber}>
                 Order #{order?.id}

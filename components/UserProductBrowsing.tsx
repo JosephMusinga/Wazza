@@ -422,9 +422,6 @@ export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
             </Button>
           </DialogTrigger>
           <DialogContent className={styles.dialogContent}>
-            <DialogHeader>
-              <DialogTitle>Confirm Details</DialogTitle>
-            </DialogHeader>
             {renderCartContent()}
           </DialogContent>
         </Dialog>
@@ -451,9 +448,6 @@ export const UserProductBrowsing: React.FC<UserProductBrowsingProps> = ({
                   <MapPin size={16} />
                   {business.address}
                 </p>
-                {business.description && (
-                  <p className={styles.businessInfoDescription}>{business.description}</p>
-                )}
               </div>
               
               <div className={styles.businessContactSection}>
