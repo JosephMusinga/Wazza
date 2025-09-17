@@ -1,20 +1,16 @@
 .container {
   display: inline-flex;
   position: relative;
+  z-index: 1;
 }
 
 .themeButton {
-  position: relative;
-  transition: transform var(--animation-duration-normal) ease;
-}
-
-.themeButton:hover {
-  transform: scale(1.05);
+  /* Use default Button component styling */
 }
 
 .icon {
-  color: var(--foreground);
-  transition: transform var(--animation-duration-normal) ease;
+  width: 20px;
+  height: 20px;
 }
 
 .menuIcon {

@@ -8,6 +8,7 @@ import { Button } from "../components/Button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/Avatar";
 import { Badge } from "../components/Badge";
 import { NotificationBell } from "../components/NotificationBell";
+import { ThemeModeSwitch } from "../components/ThemeModeSwitch";
 import { Separator } from "../components/Separator";
 import { Skeleton } from "../components/Skeleton";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/Tabs";
@@ -110,6 +111,7 @@ const BusinessDashboardPage: React.FC = () => {
             </div>
           </div>
           <div className={styles.headerActions}>
+            <ThemeModeSwitch />
             <NotificationBell />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -157,6 +159,7 @@ const BusinessDashboardPage: React.FC = () => {
             </div>
           </div>
           <div className={styles.mobileHeaderActions}>
+            <ThemeModeSwitch />
             <NotificationBell />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

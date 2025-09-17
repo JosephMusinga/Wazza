@@ -45,10 +45,12 @@
 .backButton {
   color: var(--foreground);
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .backButton:hover {
   background-color: var(--muted);
+  cursor: pointer;
 }
 
 .brandName {

@@ -102,7 +102,7 @@ interface BusinessMapProps {
   excludeBusinessId?: number; // For Agent Sellers to exclude their own business
 }
 
-export const BusinessMap: React.FC<BusinessMapProps> = ({ 
+export const BusinessMap: React.FC<BusinessMapProps> = ({
   className, 
   selectedBusiness, 
   onBusinessSelect,
@@ -114,7 +114,6 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
   const [isAuthPromptOpen, setIsAuthPromptOpen] = useState(false);
   const [authPromptBusinessName, setAuthPromptBusinessName] = useState('');
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-
   const [isLoadingLocation, setIsLoadingLocation] = useState(true);
   const [locationError, setLocationError] = useState<string | null>(null);
 
@@ -274,41 +273,6 @@ export const BusinessMap: React.FC<BusinessMapProps> = ({
     <>
       <div className={`${styles.mapContainer} ${className || ''}`}>
         {/* Map status overlay */}
-        <div style={{
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '8px',
-          borderRadius: '4px',
-          zIndex: 1000,
-          fontSize: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}>
-          <div>
-            Businesses: {filteredBusinesses?.length || 0} | Center: {mapCenter[0].toFixed(4)}, {mapCenter[1].toFixed(4)}
-          </div>
-          {(isFetching || isRefetching) && (
-            <Spinner size="sm" />
-          )}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => refetch()}
-            style={{ 
-              color: 'white', 
-              padding: '2px 6px',
-              fontSize: '10px',
-              height: 'auto'
-            }}
-            disabled={isFetching || isRefetching}
-          >
-            Refresh
-          </Button>
-        </div>
         
         <div className={styles.leafletMapWrapper} style={{ minHeight: '400px', height: '100%' }}>
           <MapContainer

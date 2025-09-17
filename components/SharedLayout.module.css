@@ -133,7 +133,7 @@
     gap: var(--spacing-2);
   }
 
-  .authControls > *:not(:last-child) {
+  .authControls > *:not(:last-child):not(:first-child) {
     display: none;
   }
 
@@ -163,11 +163,19 @@
     min-height: 48px;
     display: flex;
     align-items: center;
+    gap: var(--spacing-2);
   }
 
   .mobileNavLink:hover,
   .mobileNavLink.active {
     color: var(--primary);
+  }
+
+  .mobileThemeSection {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-3) 0;
+    border-top: 1px solid var(--border);
   }
 
   .mobileAuthControls {

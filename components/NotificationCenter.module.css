@@ -1,21 +1,35 @@
 .container {
-  width: 400px;
-  max-height: 600px;
+  width: 450px; /* Slightly bigger than before */
+  max-height: 700px; /* Increased height for more content */
   display: flex;
   flex-direction: column;
   background-color: var(--popup);
   color: var(--popup-foreground);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border); /* Match dropdown styling */
+  box-shadow: var(--shadow-md); /* Match dropdown shadow */
   overflow: hidden;
+  animation: scaleIn var(--animation-duration-fast) ease-out; /* Match dropdown animation */
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--spacing-2) var(--spacing-3); /* Match dropdown padding */
   flex-shrink: 0;
+  border-bottom: 1px solid var(--border); /* Add subtle border */
 }
 
 .headerTitle {
@@ -30,24 +44,42 @@
   margin: 0;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.closeButton {
+  flex-shrink: 0;
+}
+
 .notificationList {
   flex-grow: 1;
   overflow-y: auto;
   padding: var(--spacing-2) 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .notificationItem {
   display: flex;
   gap: var(--spacing-3);
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--spacing-2) var(--spacing-3); /* Match dropdown item padding */
   transition: background-color var(--animation-duration-fast) ease;
   position: relative;
-  min-height: 48px;
+  min-height: 56px; /* Slightly taller for more content */
   align-items: flex-start;
+  border-radius: var(--radius-sm); /* Match dropdown item border radius */
+  margin: var(--spacing-1); /* Add margin like dropdown items */
+  cursor: pointer;
+  user-select: none;
 }
 
-.notificationItem:not(.read):hover {
-  background-color: var(--muted);
+.notificationItem:not(.read):hover,
+.notificationItem:focus {
+  background-color: var(--muted); /* Match dropdown hover state */
+  outline: none;
 }
 
 .read {
@@ -67,9 +99,9 @@
 
 .iconWrapper {
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-full);
+  width: 40px; /* Slightly larger for better visibility */
+  height: 40px;
+  border-radius: var(--radius-sm); /* Match dropdown item border radius */
   background-color: var(--muted);
   display: flex;
   align-items: center;
@@ -107,6 +139,19 @@
   margin-top: var(--spacing-1);
 }
 
+.markAsReadButton {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: 0.75rem;
+  border-radius: var(--radius-sm); /* Match dropdown button styling */
+  transition: background-color var(--animation-duration-fast) ease;
+}
+
+.markAsReadButton:hover {
+  background-color: var(--muted);
+}
+
 .emptyState {
   display: flex;
   flex-direction: column;
@@ -115,6 +160,8 @@
   padding: var(--spacing-12) var(--spacing-4);
   text-align: center;
   color: var(--muted-foreground);
+  flex-grow: 1;
+  min-height: 200px;
 }
 
 .emptyIcon {
@@ -136,39 +183,82 @@
     right: 0;
     bottom: 0;
     z-index: var(--z-overlay);
+    border: none; /* Remove border on mobile for full-screen */
+    /* Account for mobile browser UI */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   .header {
-    padding: var(--spacing-4);
+    padding: var(--spacing-3) var(--spacing-4); /* Slightly more padding on mobile */
     border-bottom: 1px solid var(--border);
+    background-color: var(--popup);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    /* Add extra padding for mobile status bar */
+    padding-top: max(var(--spacing-3), env(safe-area-inset-top));
   }
 
   .headerTitle h2 {
     font-size: 1.25rem;
   }
 
+  .headerActions {
+    gap: var(--spacing-1);
+  }
+
+  .headerActions button {
+    min-height: 40px;
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.875rem;
+  }
+
+  .closeButton {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
   .notificationList {
     padding: 0;
+    /* Add padding bottom for better scrolling */
+    padding-bottom: var(--spacing-4);
   }
 
   .notificationItem {
-    padding: var(--spacing-4);
-    min-height: 64px;
+    padding: var(--spacing-3) var(--spacing-4); /* More padding on mobile */
+    min-height: 72px; /* Increased for better touch targets */
     border-bottom: 1px solid var(--border);
+    margin: var(--spacing-1); /* Maintain dropdown-like spacing */
+    /* Better touch interaction */
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: var(--radius-sm); /* Match dropdown styling */
+  }
+
+  .notificationItem:active {
+    background-color: var(--muted);
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
   }
 
   .iconWrapper {
-    width: 40px;
-    height: 40px;
+    width: 44px; /* Larger for better touch targets */
+    height: 44px;
+    border-radius: var(--radius-sm); /* Match dropdown styling */
   }
 
   .title {
     font-size: 1rem;
+    line-height: 1.4;
   }
 
   .message {
     font-size: 0.9375rem;
     line-height: 1.5;
+    margin-bottom: var(--spacing-1);
   }
 
   .time {
@@ -177,11 +267,21 @@
 
   .emptyState {
     padding: var(--spacing-16) var(--spacing-4);
+    /* Better positioning on mobile */
+    margin-top: var(--spacing-8);
+    flex-grow: 1;
+    min-height: 300px;
   }
 
   .emptyIcon {
     width: 64px;
     height: 64px;
+  }
+
+  .markAsReadButton {
+    min-height: 36px;
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.875rem;
   }
 }
 
@@ -192,6 +292,8 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-2);
+    /* Ensure header stays at top on very small screens */
+    padding-top: max(var(--spacing-3), env(safe-area-inset-top));
   }
 
   .headerTitle {
@@ -206,25 +308,42 @@
   .notificationItem {
     padding: var(--spacing-3);
     gap: var(--spacing-2);
-    min-height: 56px;
+    min-height: 64px; /* Better touch target on small screens */
+    margin: var(--spacing-1); /* Maintain dropdown-like spacing */
+    border-radius: var(--radius-sm); /* Match dropdown styling */
+    /* Enhanced touch feedback */
+    transition: all 0.1s ease;
+  }
+
+  .notificationItem:active {
+    background-color: var(--muted);
+    transform: scale(0.98);
   }
 
   .iconWrapper {
-    width: 32px;
-    height: 32px;
+    width: 36px; /* Slightly larger than before but still compact */
+    height: 36px;
+    border-radius: var(--radius-sm); /* Match dropdown styling */
   }
 
   .content {
     gap: var(--spacing-1);
+    /* Ensure content doesn't overflow */
+    overflow: hidden;
   }
 
   .title {
     font-size: 0.9375rem;
     line-height: 1.4;
+    /* Prevent text overflow */
+    word-break: break-word;
   }
 
   .message {
     font-size: 0.875rem;
+    /* Better line spacing for readability */
+    line-height: 1.4;
+    word-break: break-word;
   }
 
   .time {
@@ -233,10 +352,23 @@
 
   .emptyState {
     padding: var(--spacing-12) var(--spacing-3);
+    /* Better centering on small screens */
+    text-align: center;
+    flex-grow: 1;
+    min-height: 250px;
   }
 
   .emptyIcon {
     width: 48px;
     height: 48px;
+  }
+
+  .markAsReadButton {
+    min-height: 32px;
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: 0.75rem;
+    /* Make button full width on very small screens for better touch targets */
+    width: 100%;
+    margin-top: var(--spacing-2);
   }
 }

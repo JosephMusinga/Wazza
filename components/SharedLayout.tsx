@@ -4,7 +4,8 @@ import { useAuth } from "../helpers/useAuth";
 import { Button } from "./Button";
 import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
 import { Skeleton } from "./Skeleton";
-import { LogIn, Menu, X, Zap } from "lucide-react";
+import { LogIn, Menu, X, Zap, User } from "lucide-react";
+import { ThemeModeSwitch } from "./ThemeModeSwitch";
 import styles from "./SharedLayout.module.css";
 
 export const SharedLayout: React.FC<{ children: React.ReactNode }> = ({
@@ -41,6 +42,7 @@ export const SharedLayout: React.FC<{ children: React.ReactNode }> = ({
       case "authenticated":
         return (
           <div className={styles.authControls}>
+            <ThemeModeSwitch />
             <Button variant="ghost" onClick={logout}>
               Logout
             </Button>
@@ -111,17 +113,32 @@ export const SharedLayout: React.FC<{ children: React.ReactNode }> = ({
           <div className={styles.mobileMenu}>
             <nav className={styles.mobileNav}>
               {authState.type === "authenticated" && (
-                <NavLink
-                  to="/dashboard"
-                  className={({ isActive }) =>
-                    `${styles.mobileNavLink} ${isActive ? styles.active : ""}`
-                  }
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </NavLink>
+                <>
+                  <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      `${styles.mobileNavLink} ${isActive ? styles.active : ""}`
+                    }
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Dashboard
+                  </NavLink>
+                  <NavLink
+                    to="/user/profile"
+                    className={({ isActive }) =>
+                      `${styles.mobileNavLink} ${isActive ? styles.active : ""}`
+                    }
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <User size={16} />
+                    Profile
+                  </NavLink>
+                </>
               )}
             </nav>
+            <div className={styles.mobileThemeSection}>
+              <ThemeModeSwitch />
+            </div>
             {authState.type === "unauthenticated" && !isLoginPage && (
               <div className={styles.mobileAuthControls}>
                 <Button asChild variant="ghost" size="lg">

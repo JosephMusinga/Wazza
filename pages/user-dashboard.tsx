@@ -19,6 +19,7 @@ import { Button } from "../components/Button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/Avatar";
 import { Badge } from "../components/Badge";
 import { NotificationBell } from "../components/NotificationBell";
+import { ThemeModeSwitch } from "../components/ThemeModeSwitch";
 import { Separator } from "../components/Separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/Tabs";
 import { BusinessMap } from "../components/BusinessMap";
@@ -150,6 +151,7 @@ const UserDashboardPage: React.FC = () => {
                 </DialogContent>
                 </Dialog>
               )}
+              <ThemeModeSwitch />
               <NotificationBell />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -221,6 +223,7 @@ const UserDashboardPage: React.FC = () => {
                 </DialogContent>
                 </Dialog>
               )}
+              <ThemeModeSwitch />
               <NotificationBell />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

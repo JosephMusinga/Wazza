@@ -16,6 +16,8 @@ import {
   switchToAutoMode,
   getCurrentThemeMode,
 } from "../helpers/themeMode";
+
+const THEME_STORAGE_KEY = 'wazza-theme-mode';
 import styles from "./ThemeModeSwitch.module.css";
 
 export interface ThemeModeSwitchProps {
@@ -32,10 +34,33 @@ export const ThemeModeSwitch = ({
 }: ThemeModeSwitchProps) => {
   const [currentMode, setCurrentMode] = useState<ThemeMode>("light");
 
-  // Initialize theme on component mount
+  // Initialize theme on component mount with localStorage persistence
   useEffect(() => {
-    const initialMode = getCurrentThemeMode();
-    setCurrentMode(initialMode);
+    try {
+      const savedMode = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode;
+      if (savedMode && ['light', 'dark', 'auto'].includes(savedMode)) {
+        // Apply the saved theme mode
+        switch (savedMode) {
+          case "light":
+            switchToLightMode();
+            break;
+          case "dark":
+            switchToDarkMode();
+            break;
+          case "auto":
+            switchToAutoMode();
+            break;
+        }
+        setCurrentMode(savedMode);
+      } else {
+        const initialMode = getCurrentThemeMode();
+        setCurrentMode(initialMode);
+      }
+    } catch (error) {
+      console.error('Failed to load theme from localStorage:', error);
+      const initialMode = getCurrentThemeMode();
+      setCurrentMode(initialMode);
+    }
   }, []);
 
   const applyThemeMode = (mode: ThemeMode) => {
@@ -52,6 +77,13 @@ export const ThemeModeSwitch = ({
     }
     
     setCurrentMode(mode);
+    
+    // Save to localStorage
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, mode);
+    } catch (error) {
+      console.error('Failed to save theme to localStorage:', error);
+    }
   };
 
   const getThemeIcon = () => {
@@ -73,7 +105,7 @@ export const ThemeModeSwitch = ({
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            size="icon-md"
+            size="icon"
             aria-label={`Current theme: ${currentMode}. Click to change theme`}
             className={styles.themeButton}
           >

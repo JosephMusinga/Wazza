@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger 
 } from "./DropdownMenu";
 import { NotificationBell } from "./NotificationBell";
+import { ThemeModeSwitch } from "./ThemeModeSwitch";
 import styles from "./BusinessSharedLayout.module.css";
 
 export const BusinessSharedLayout: React.FC<{ children: React.ReactNode }> = ({
@@ -102,10 +103,29 @@ export const BusinessSharedLayout: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const handleBackButton = () => {
+    // Check if navigate function is available
+    if (!navigate) {
+      // Try using window.location as fallback
+      if (headerConfig.backButtonTarget) {
+        window.location.href = headerConfig.backButtonTarget;
+        return;
+      }
+    }
+    
     if (headerConfig.backButtonTarget) {
-      navigate(headerConfig.backButtonTarget);
+      try {
+        navigate(headerConfig.backButtonTarget);
+      } catch (error) {
+        // Fallback: try to navigate to the home page if the target fails
+        try {
+          navigate('/');
+        } catch (fallbackError) {
+          window.location.href = '/';
+        }
+      }
     }
   };
+
 
   const renderAuthControls = () => {
     switch (authState.type) {
@@ -124,6 +144,7 @@ export const BusinessSharedLayout: React.FC<{ children: React.ReactNode }> = ({
         
         return (
           <div className={styles.authControls}>
+            <ThemeModeSwitch />
             <NotificationBell />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -181,6 +202,24 @@ export const BusinessSharedLayout: React.FC<{ children: React.ReactNode }> = ({
 
   if (authState.type === "unauthenticated" && isLoginPage) {
     return <>{children}</>;
+  }
+
+  // If authentication is still loading, show loading state
+  if (authState.type === "loading") {
+    return (
+      <div className={styles.layout}>
+        <header className={styles.header}>
+          <div className={styles.headerContent}>
+            <div className={styles.userInfo}>
+              <div>Loading...</div>
+            </div>
+          </div>
+        </header>
+        <main className={styles.main}>
+          {children}
+        </main>
+      </div>
+    );
   }
 
   return (

@@ -1,10 +1,10 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { useNotifications } from '../helpers/useNotifications';
 import { Button } from './Button';
 import { Skeleton } from './Skeleton';
 import { Separator } from './Separator';
 import { Badge } from './Badge';
-import { Bell, Check, Mail, Package, ShoppingCart, AlertTriangle } from 'lucide-react';
+import { Bell, Check, Mail, Package, ShoppingCart, AlertTriangle, X } from 'lucide-react';
 import styles from './NotificationCenter.module.css';
 import { Notification } from '../endpoints/notifications_GET.schema';
 
@@ -34,7 +34,12 @@ const NotificationItem = ({ notification, onMarkAsRead }: { notification: Notifi
         <p className={styles.time}>{new Date(notification.sentAt).toLocaleString()}</p>
       </div>
       {!isRead && (
-        <Button variant="ghost" size="sm" onClick={() => onMarkAsRead(notification.id)}>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={() => onMarkAsRead(notification.id)}
+          className={styles.markAsReadButton}
+        >
           Mark as read
         </Button>
       )}
@@ -55,7 +60,7 @@ const NotificationSkeleton = () => (
   </div>
 );
 
-export const NotificationCenter = ({ className }: { className?: string }) => {
+export const NotificationCenter = ({ className, onClose }: { className?: string; onClose?: () => void }) => {
   const {
     notifications,
     isLoading,
@@ -68,6 +73,18 @@ export const NotificationCenter = ({ className }: { className?: string }) => {
     isMarkingAsRead,
     unreadCount,
   } = useNotifications();
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useCallback(
@@ -91,14 +108,27 @@ export const NotificationCenter = ({ className }: { className?: string }) => {
           <h2>Notifications</h2>
           {unreadCount > 0 && <Badge variant="default">{unreadCount} New</Badge>}
         </div>
-        <Button
-          variant="link"
-          size="sm"
-          onClick={markAllAsRead}
-          disabled={isMarkingAsRead || unreadCount === 0}
-        >
-          Mark all as read
-        </Button>
+        <div className={styles.headerActions}>
+          <Button
+            variant="link"
+            size="sm"
+            onClick={markAllAsRead}
+            disabled={isMarkingAsRead || unreadCount === 0}
+          >
+            Mark all as read
+          </Button>
+          {isMobile && onClose && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className={styles.closeButton}
+              aria-label="Close notifications"
+            >
+              <X size={20} />
+            </Button>
+          )}
+        </div>
       </header>
       <Separator />
       <div className={styles.notificationList}>

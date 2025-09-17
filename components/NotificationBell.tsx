@@ -9,9 +9,10 @@ import styles from './NotificationBell.module.css';
 
 export const NotificationBell = ({ className }: { className?: string }) => {
   const { unreadCount, isLoading } = useNotifications();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className={`${styles.bellButton} ${className || ''}`}>
           <Bell size={20} />
@@ -21,7 +22,7 @@ export const NotificationBell = ({ className }: { className?: string }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent sideOffset={12} align="end" removeBackgroundAndPadding>
-        <NotificationCenter />
+        <NotificationCenter onClose={() => setIsOpen(false)} />
       </PopoverContent>
     </Popover>
   );

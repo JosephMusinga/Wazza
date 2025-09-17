@@ -16,6 +16,8 @@
   align-items: flex-start;
   padding: var(--spacing-6);
   border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-foreground) 100%);
+  color: white;
 }
 
 .headerInfo {
@@ -25,21 +27,23 @@
 }
 
 .avatar {
-  width: 3.5rem;
-  height: 3.5rem;
-  font-size: 1.25rem;
+  width: 4rem;
+  height: 4rem;
+  font-size: 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .cardTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--foreground);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
   margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .cardSubtitle {
   font-size: 0.875rem;
-  color: var(--muted-foreground);
+  color: rgba(255, 255, 255, 0.8);
   margin: var(--spacing-1) 0 0;
 }
 
@@ -47,9 +51,54 @@
   padding: var(--spacing-6);
 }
 
-.form {
+.editingContainer {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.displayContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+  padding-bottom: var(--spacing-3);
+  border-bottom: 2px solid var(--primary);
+  position: relative;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 3rem;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 1px;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--spacing-4);
 }
 
@@ -58,10 +107,13 @@
   justify-content: flex-end;
   gap: var(--spacing-3);
   margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border);
 }
 
 .infoGrid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--spacing-6);
 }
 
@@ -69,18 +121,26 @@
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background-color: var(--muted);
+  border-radius: var(--radius);
+  transition: background-color var(--animation-duration-fast) ease;
+}
+
+.infoItem:hover {
+  background-color: var(--accent);
 }
 
 .infoIcon {
-  color: var(--muted-foreground);
+  color: var(--primary);
   margin-top: 0.25rem;
   flex-shrink: 0;
 }
 
 .infoLabel {
   display: block;
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--muted-foreground);
   margin-bottom: var(--spacing-1);
   text-transform: uppercase;
@@ -91,18 +151,24 @@
   font-size: 1rem;
   color: var(--foreground);
   margin: 0;
-  word-break: break-all;
-}
-
-.role {
-  text-transform: capitalize;
+  word-break: break-word;
   font-weight: 500;
 }
 
+.websiteLink {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--animation-duration-fast) ease;
+}
+
+.websiteLink:hover {
+  color: var(--primary-foreground);
+  text-decoration: underline;
+}
 
 .avatarSkeleton {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: var(--radius-full);
 }
 
@@ -111,7 +177,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-4);
-  padding: var(--spacing-6);
+  padding: var(--spacing-8);
   text-align: center;
 }
 
@@ -119,6 +185,7 @@
   color: var(--error);
   font-size: 0.875rem;
   margin: 0;
+  font-weight: 500;
 }
 
 /* Tablet and mobile styles */
@@ -136,13 +203,13 @@
   }
 
   .avatar {
-    width: 3rem;
-    height: 3rem;
-    font-size: 1.125rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.25rem;
   }
 
   .cardTitle {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
   }
 
   .cardSubtitle {
@@ -153,7 +220,29 @@
     padding: var(--spacing-4);
   }
 
+  .editingContainer {
+    gap: var(--spacing-6);
+  }
+
+  .displayContainer {
+    gap: var(--spacing-6);
+  }
+
+  .formSection {
+    gap: var(--spacing-3);
+  }
+
+  .infoSection {
+    gap: var(--spacing-3);
+  }
+
+  .sectionTitle {
+    font-size: 1.125rem;
+    padding-bottom: var(--spacing-2);
+  }
+
   .form {
+    grid-template-columns: 1fr;
     gap: var(--spacing-3);
   }
 
@@ -168,15 +257,13 @@
     min-height: 48px;
   }
 
-
   .infoGrid {
+    grid-template-columns: 1fr;
     gap: var(--spacing-4);
   }
 
   .infoItem {
     padding: var(--spacing-3);
-    background-color: var(--muted);
-    border-radius: var(--radius);
     min-height: 48px;
     align-items: center;
   }
@@ -187,16 +274,15 @@
 
   .infoValue {
     font-size: 0.9375rem;
-    word-break: break-word;
   }
 
   .errorState {
-    padding: var(--spacing-4);
+    padding: var(--spacing-6);
   }
 
   .avatarSkeleton {
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
   }
 }
 
@@ -213,13 +299,13 @@
   }
 
   .avatar {
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 1rem;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.125rem;
   }
 
   .cardTitle {
-    font-size: 1rem;
+    font-size: 1.125rem;
   }
 
   .cardSubtitle {
@@ -247,7 +333,7 @@
   }
 
   .infoLabel {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     margin-bottom: 0;
   }
 
@@ -256,7 +342,7 @@
   }
 
   .avatarSkeleton {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3rem;
+    height: 3rem;
   }
 }
