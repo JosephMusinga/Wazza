@@ -32,3 +32,4 @@ const BusinessProfilePage: React.FC = () => {
 };
 
 export default BusinessProfilePage;
+

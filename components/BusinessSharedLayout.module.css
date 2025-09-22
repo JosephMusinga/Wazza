@@ -34,7 +34,7 @@
 .userInfo {
   display: flex;
   align-items: center;
-  gap: var(--spacing-3);
+  gap: var(--spacing-2);
 }
 
 .zapIcon {
@@ -42,16 +42,6 @@
   flex-shrink: 0;
 }
 
-.backButton {
-  color: var(--foreground);
-  flex-shrink: 0;
-  cursor: pointer;
-}
-
-.backButton:hover {
-  background-color: var(--muted);
-  cursor: pointer;
-}
 
 .brandName {
   font-size: 1.5rem;

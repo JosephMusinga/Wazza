@@ -540,3 +540,4 @@ export const BusinessProfile: React.FC<{ className?: string }> = ({ className })
     </div>
   );
 };
+

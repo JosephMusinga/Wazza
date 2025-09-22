@@ -228,15 +228,38 @@ export const BusinessSharedLayout: React.FC<{ children: React.ReactNode }> = ({
         <div className={styles.headerContent}>
           <div className={styles.userInfo}>
             {headerConfig.showBackButton ? (
-              <Button
-                variant="ghost"
-                size="icon"
+              <button
                 onClick={handleBackButton}
-                className={styles.backButton}
                 aria-label="Go back"
+                style={{
+                  cursor: 'pointer',
+                  background: 'transparent',
+                  border: 'none',
+                  padding: '4px',
+                  margin: '0',
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  borderRadius: 'var(--radius)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--foreground)',
+                  transition: 'background-color var(--animation-duration-fast) ease',
+                  position: 'relative',
+                  zIndex: 9999,
+                  flexShrink: 0,
+                  minWidth: '2.5rem',
+                  minHeight: '2.5rem'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--muted)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
               >
                 <ArrowLeft size={20} />
-              </Button>
+              </button>
             ) : headerConfig.showLightning ? (
               <Zap className={styles.zapIcon} />
             ) : null}
